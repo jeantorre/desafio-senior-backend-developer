@@ -10,6 +10,7 @@ class UsuarioBase(BaseModel):
     Schema que representa o modelo de usuário
 
     Attributes:
+        usuario_id (str): Identificador único do usuário
         nome_usuario (str): Nome do usuário
         data_nascimento (str): Data de nascimento do usuário
         cpf (str): CPF do usuário
@@ -17,6 +18,9 @@ class UsuarioBase(BaseModel):
         celular_usuario (str): Celular do usuário
         email_usuario (EmailStr): Email do usuário
         senha_hash (str): Senha hasheada do usuário
+        data_cadastro (datetime): Data e hora do cadastro do usuário
+        data_atualizacao (datetime): Data e hora da última
+        atualização do usuário.
     """
 
     nome_usuario: str = Field(..., description="Nome do usuário")
