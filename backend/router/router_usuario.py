@@ -11,7 +11,7 @@ from database import get_db
 from fastapi import APIRouter, Depends, HTTPException, Query
 from schema import AtualizarUsuario, CriarUsuario, LerUsuario, UsuarioResponse
 from sqlalchemy.orm import Session
-from utils.auth import get_usuario_atual
+from utils.auth import get_usuario_atual, verificar_bearer_token
 
 router_usuario = APIRouter(
     prefix="/usuario",
@@ -27,7 +27,7 @@ router_usuario = APIRouter(
     description="""
                     Retorna uma lista de todos os usuários cadastrados no sistema.
                     """,
-    dependencies=[Depends(get_usuario_atual)],
+    dependencies=[Depends(get_usuario_atual), Depends(verificar_bearer_token)],
 )
 async def get_usuarios(
     db: Session = Depends(get_db),
@@ -54,7 +54,7 @@ async def get_usuarios(
     description="""
                     Retorna as informações detalhadas de um usuário específico.
                     """,
-    dependencies=[Depends(get_usuario_atual)],
+    dependencies=[Depends(get_usuario_atual), Depends(verificar_bearer_token)],
 )
 async def get_usuario(
     id_usuario: str,
@@ -81,7 +81,7 @@ async def get_usuario(
     description="""
                     Registra um novo usuário no sistema.
                     """,
-    dependencies=[Depends(get_usuario_atual)],
+    dependencies=[Depends(get_usuario_atual), Depends(verificar_bearer_token)],
 )
 async def post_usuario(
     usuario: CriarUsuario,
@@ -105,7 +105,7 @@ async def post_usuario(
     description="""
                  Atualiza as informações de um usuário existente.
                  """,
-    dependencies=[Depends(get_usuario_atual)],
+    dependencies=[Depends(get_usuario_atual), Depends(verificar_bearer_token)],
 )
 async def update_usuario(
     id_usuario: str,
@@ -144,7 +144,7 @@ async def update_usuario(
     description="""
                               Deleta um estabelecimento existente do sistema.
                               """,
-    dependencies=[Depends(get_usuario_atual)],
+    dependencies=[Depends(get_usuario_atual), Depends(verificar_bearer_token)],
 )
 async def delete_usuario(
     id_usuario: str,
