@@ -1,0 +1,52 @@
+[project]
+name = "desafio-senior-backend-developer"
+version = "1.0.0"
+description = ""
+authors = [
+    {name = "Jean Torre",email = "jean.torre21@gmail.com"}
+]
+readme = "README.md"
+requires-python = ">=3.12,<4.0"
+dependencies = [
+    "black (>=25.1.0,<26.0.0)",
+    "flake8 (>=7.2.0,<8.0.0)",
+    "isort (>=6.0.1,<7.0.0)",
+    "pre-commit (>=4.2.0,<5.0.0)",
+    "mkdocs (>=1.6.1,<2.0.0)",
+    "mkdocs-material (>=9.6.12,<10.0.0)",
+    "mkdocstrings-python (>=1.16.10,<2.0.0)",
+    "taskipy (>=1.14.1,<2.0.0)",
+    "pytest (>=8.3.5,<9.0.0)",
+    "ignr (>=2.2,<3.0)"
+]
+
+
+[build-system]
+requires = ["poetry-core>=2.0.0,<3.0.0"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.isort]
+profile = 'black'
+line_length = 89
+skip_gitignore = true
+
+[tool.black]
+line-length = 89
+target-version = ['py312']
+include = '\.pyi?$'
+exclude = '''
+/(
+    \.git
+  | \.hg
+  | \.mypy_cache
+  | \.venv
+  | _build
+  | build
+  | dist
+)/
+'''
+
+[tool.taskipy.tasks]
+tests = "pytest -v"
+docs = "mkdocs serve"
+deploy = "mkdocs gh-deploy"
