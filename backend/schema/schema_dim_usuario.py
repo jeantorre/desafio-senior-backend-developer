@@ -57,7 +57,7 @@ class UsuarioBase(BaseModel):
         return v
 
 
-class UsuarioResponse(BaseModel):
+class LerUsuario(BaseModel):
     model_config = ConfigDict(from_attributes=True)
     usuario_id: str
     nome_usuario: str
@@ -66,13 +66,6 @@ class UsuarioResponse(BaseModel):
     telefone_usuario: str
     celular_usuario: str
     email_usuario: EmailStr
-    data_cadastro: datetime
-    data_atualizacao: datetime
-
-
-class LerUsuario(UsuarioBase):
-    model_config = ConfigDict(from_attributes=True)
-    usuario_id: str
     data_cadastro: datetime
     data_atualizacao: datetime
 

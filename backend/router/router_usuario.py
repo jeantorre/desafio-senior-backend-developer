@@ -9,7 +9,7 @@ from crud import (
 )
 from database import get_db
 from fastapi import APIRouter, Depends, HTTPException, Query
-from schema import AtualizarUsuario, CriarUsuario, LerUsuario, UsuarioResponse
+from schema import AtualizarUsuario, CriarUsuario, LerUsuario
 from sqlalchemy.orm import Session
 from utils.auth import get_usuario_atual, verificar_bearer_token
 
@@ -22,7 +22,7 @@ router_usuario = APIRouter(
 
 @router_usuario.get(
     "/",
-    response_model=List[UsuarioResponse],
+    response_model=List[LerUsuario],
     summary="Listar todos os usuários",
     description="""
                     Retorna uma lista de todos os usuários cadastrados no sistema.

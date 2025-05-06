@@ -4,7 +4,6 @@ from .schema_dim_usuario import (
     LerUsuario,
     Token,
     UsuarioBase,
-    UsuarioResponse,
 )
 
 __all__ = [
@@ -12,6 +11,5 @@ __all__ = [
     "AtualizarUsuario",
     "CriarUsuario",
     "LerUsuario",
-    "UsuarioResponse",
     "Token",
 ]
