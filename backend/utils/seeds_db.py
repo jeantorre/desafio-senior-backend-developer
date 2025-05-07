@@ -1,5 +1,10 @@
-from model import ModeloDocumento, ModeloRlUsuarioDocumento, ModeloUsuario
-from schema import DocumentoBase, UsuarioBase
+from model import (
+    ModeloDocumento,
+    ModeloRlUsuarioDocumento,
+    ModeloTransporte,
+    ModeloUsuario,
+)
+from schema import DocumentoBase, TransporteBase, UsuarioBase
 from sqlalchemy.orm import Session
 
 
@@ -132,4 +137,42 @@ def criar_relacoes_usuario_documento(db: Session) -> None:
         print("Relações entre usuários e documentos criadas com sucesso!")
     except Exception as e:
         print(f"Erro ao criar relações entre usuários e documentos: {e}")
+        db.rollback()
+
+
+def criar_transportes(db: Session) -> None:
+    """
+    Função responsável por criar transportes de teste no sistema
+
+    param: db: Session
+    return: None
+    """
+    transportes = [
+        {
+            "descricao_transporte": "Trem",
+            "valor_passagem": 7.60,
+        },
+        {
+            "descricao_transporte": "Ônibus",
+            "valor_passagem": 5.50,
+        },
+        {
+            "descricao_transporte": "Metrô",
+            "valor_passagem": 7.90,
+        },
+    ]
+
+    try:
+        db_transportes = []
+        for transporte in transportes:
+            transporte = TransporteBase(**transporte)
+            db_transporte = ModeloTransporte(**transporte.model_dump())
+            db.add(db_transporte)
+            db_transportes.append(db_transporte)
+        db.commit()
+        for db_transporte in db_transportes:
+            db.refresh(db_transporte)
+        print("Transportes criados com sucesso!")
+    except Exception as e:
+        print(f"Erro ao criar documentos: {e}")
         db.rollback()

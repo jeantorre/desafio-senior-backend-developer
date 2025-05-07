@@ -5,6 +5,12 @@ from .crud_documento import (
     ler_documentos,
 )
 from .crud_rl_usuario_documento import ler_rl_usuario_documentos
+from .crud_transporte import (
+    criar_transporte,
+    deletar_transporte,
+    ler_transporte,
+    ler_transportes,
+)
 from .crud_usuario import (
     atualizar_usuario,
     criar_usuario,
