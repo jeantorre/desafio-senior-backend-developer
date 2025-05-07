@@ -1,3 +1,4 @@
+from decimal import Decimal
 from typing import Optional
 
 from pydantic import BaseModel, ConfigDict, Field, field_validator
@@ -15,10 +16,11 @@ class DocumentoBase(BaseModel):
 
     descricao_documento: str = Field(..., description="Descrição do documento")
     sigla_documento: Optional[str] = Field(None, description="Sigla do documento")
+    saldo: Optional[Decimal] = Field(None, description="Saldo do documento")
 
-    _normalizacao_strings_ = field_validator("descricao_documento", mode="before")(
-        maiuscula_sem_acento
-    )
+    _normalizacao_strings_ = field_validator(
+        "descricao_documento", "sigla_documento", mode="before"
+    )(maiuscula_sem_acento)
 
 
 class LerDocumento(BaseModel):
@@ -26,6 +28,7 @@ class LerDocumento(BaseModel):
     documento_id: str
     descricao_documento: str
     sigla_documento: Optional[str]
+    saldo: Optional[Decimal]
 
 
 class CriarDocumento(DocumentoBase):

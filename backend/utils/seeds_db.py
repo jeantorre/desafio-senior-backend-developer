@@ -87,11 +87,9 @@ def criar_documentos(db: Session) -> None:
         {
             "descricao_documento": "Vale Transporte",
             "sigla_documento": "VT",
+            "saldo": 100,
         },
-        {
-            "descricao_documento": "Vale Alimentação",
-            "sigla_documento": "VA",
-        },
+        {"descricao_documento": "Vale Alimentação", "sigla_documento": "VA", "saldo": 0},
     ]
 
     try:
