@@ -1,3 +1,10 @@
+from .crud_documento import (
+    criar_documento,
+    deletar_documento,
+    ler_documento,
+    ler_documentos,
+)
+from .crud_rl_usuario_documento import ler_rl_usuario_documentos
 from .crud_usuario import (
     atualizar_usuario,
     criar_usuario,
@@ -20,4 +27,9 @@ __all__ = [
     "deletar_usuario",
     "ler_usuario",
     "ler_usuarios",
+    "criar_documento",
+    "deletar_documento",
+    "ler_documento",
+    "ler_documentos",
+    "ler_rl_usuario_documentos",
 ]

@@ -3,7 +3,7 @@ from dotenv import load_dotenv
 from fastapi import FastAPI, HTTPException, Request
 from fastapi.exceptions import RequestValidationError
 from fastapi.middleware.cors import CORSMiddleware
-from router import router_auth, router_usuario
+from router import router_auth, router_documento, router_usuario
 from utils.init_db import reset_db
 
 load_dotenv()
@@ -31,6 +31,10 @@ app = FastAPI(
             "name": "Usuários",
             "description": "Gerenciamento de usuários",
         },
+        {
+            "name": "Documentos",
+            "description": "Gerenciamento de documentos",
+        },
     ],
 )
 
@@ -56,3 +60,4 @@ app.add_middleware(
 
 app.include_router(router_auth)
 app.include_router(router_usuario)
+app.include_router(router_documento)

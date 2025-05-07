@@ -1,3 +1,4 @@
+from .schema_dim_documento import CriarDocumento, DocumentoBase, LerDocumento
 from .schema_dim_usuario import (
     AtualizarUsuario,
     CriarUsuario,
@@ -12,4 +13,7 @@ __all__ = [
     "CriarUsuario",
     "LerUsuario",
     "Token",
+    "DocumentoBase",
+    "CriarDocumento",
+    "LerDocumento",
 ]

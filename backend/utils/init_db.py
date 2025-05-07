@@ -1,6 +1,7 @@
 from database import Base, SessionLocal
 from sqlalchemy import text
-from utils.seeds_db import criar_usuarios
+
+from .seeds_db import criar_documentos, criar_relacoes_usuario_documento, criar_usuarios
 
 
 def reset_db(engine) -> None:
@@ -18,6 +19,8 @@ def reset_db(engine) -> None:
         Base.metadata.create_all(bind=engine)
         db = SessionLocal()
         criar_usuarios(db)
+        criar_documentos(db)
+        criar_relacoes_usuario_documento(db)
         db.close()
         print("Database reset successfully.")
     except Exception as e:
