@@ -7,6 +7,11 @@ from .schema_dim_usuario import (
     Token,
     UsuarioBase,
 )
+from .schema_fat_transacao_carteira import (
+    CriarTransacaoCarteira,
+    LerTransacaoCarteira,
+    TransacaoCarteiraBase,
+)
 
 __all__ = [
     "UsuarioBase",
@@ -20,4 +25,7 @@ __all__ = [
     "TransporteBase",
     "CriarTransporte",
     "LerTransporte",
+    "TransacaoCarteiraBase",
+    "CriarTransacaoCarteira",
+    "LerTransacaoCarteira",
 ]
