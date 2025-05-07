@@ -41,7 +41,7 @@ class ModeloUsuario(Base):
     telefone_usuario: str = Column(String, comment="Telefone do usuário.")
     celular_usuario: str = Column(String, comment="Celular do usuário.")
     email_usuario: str = Column(String, comment="Email do usuário.")
-    senha_hash: str = Column(String, comment="Hash da senha do usuário.")
+    senha: str = Column(String, comment="Hash da senha do usuário.")
     data_cadastro: datetime = Column(
         DateTime(timezone=True),
         default=lambda: datetime.now(timezone("America/Sao_Paulo")),

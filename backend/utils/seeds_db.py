@@ -50,7 +50,7 @@ def criar_usuarios(db: Session) -> None:
         for usuario in usuarios:
             senha_inicial = usuario.pop("senha")
             senha_hash = ModeloUsuario.gerar_senha_hash(senha_inicial)
-            usuario["senha_hash"] = senha_hash
+            usuario["senha"] = senha_hash
             usuario = UsuarioBase(**usuario)
             db_usuario = ModeloUsuario(**usuario.model_dump())
             db.add(db_usuario)

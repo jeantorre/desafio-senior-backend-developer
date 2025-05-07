@@ -17,7 +17,7 @@ class UsuarioBase(BaseModel):
         telefone_usuario (str): Telefone do usuário
         celular_usuario (str): Celular do usuário
         email_usuario (EmailStr): Email do usuário
-        senha_hash (str): Senha hasheada do usuário
+        senha (str): Senha hasheada do usuário
         data_cadastro (datetime): Data e hora do cadastro do usuário
         data_atualizacao (datetime): Data e hora da última
         atualização do usuário.
@@ -31,7 +31,7 @@ class UsuarioBase(BaseModel):
     telefone_usuario: str = Field(..., description="Telefone do usuário")
     celular_usuario: str = Field(..., description="Celular do usuário")
     email_usuario: EmailStr = Field(..., description="Email do usuário")
-    senha_hash: str = Field(..., description="Senha hasheada do usuário")
+    senha: str = Field(..., description="Senha hasheada do usuário")
 
     _normalizacao_strings_ = field_validator("nome_usuario", mode="before")(
         maiuscula_sem_acento

@@ -50,7 +50,7 @@ def validar_senha(usuario: ModeloUsuario, senha: str) -> None:
     param: senha: str
     return: None
     """
-    return ModeloUsuario.verificar_senha(senha, usuario.senha_hash)
+    return ModeloUsuario.verificar_senha(senha, usuario.senha)
 
 
 def criar_usuario(db: Session, usuario: CriarUsuario) -> None:
@@ -68,7 +68,7 @@ def criar_usuario(db: Session, usuario: CriarUsuario) -> None:
 
     senha_hash = ModeloUsuario.gerar_senha_hash(usuario.senha)
     db_usuario = ModeloUsuario(
-        **usuario.model_dump(exclude={"senha"}), senha_hash=senha_hash
+        **usuario.model_dump(exclude={"senha"}), senha=senha_hash
     )
 
     db.add(db_usuario)
