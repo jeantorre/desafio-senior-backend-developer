@@ -4,12 +4,13 @@ from crud import (
     atualizar_usuario,
     criar_usuario,
     deletar_usuario,
+    ler_rl_usuario_documentos,
     ler_usuario,
     ler_usuarios,
 )
 from database import get_db
 from fastapi import APIRouter, Depends, HTTPException, Query
-from schema import AtualizarUsuario, CriarUsuario, LerUsuario
+from schema import AtualizarUsuario, CriarUsuario, LerDocumento, LerUsuario
 from sqlalchemy.orm import Session
 from utils.auth import get_usuario_atual, verificar_bearer_token
 
@@ -165,3 +166,28 @@ async def delete_usuario(
         raise
     except Exception as e:
         raise HTTPException(status_code=500, detail=e)
+
+
+@router_usuario.get(
+    "/{usuario_id}/documentos",
+    response_model=List[LerDocumento],
+    summary="Listar todos os documentos de um usuário",
+    description=(
+        "Retorna uma lista de todos os documentos associados a um usuário específico."
+    ),
+    dependencies=[Depends(get_usuario_atual), Depends(verificar_bearer_token)],
+)
+async def get_documentos_usuario(
+    usuario_id: str,
+    db: Session = Depends(get_db),
+):
+    """
+    Retorna uma lista de todos os documentos de um usuário específico.
+    """
+    try:
+        documentos = ler_rl_usuario_documentos(db=db, usuario_id=usuario_id)
+        return documentos
+    except HTTPException as e:
+        raise e
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
