@@ -90,7 +90,7 @@ def ler_usuarios(
     """
     query = db.query(ModeloUsuario)
     if nome:
-        query = query.filter(ModeloUsuario.nome.ilike(f"%{nome}%"))
+        query = query.filter(ModeloUsuario.nome_usuario.ilike(f"%{nome}%"))
     usuarios = query.all()
     if not usuarios:
         raise HTTPException(status_code=404, detail="Sem usuários cadastrados")
