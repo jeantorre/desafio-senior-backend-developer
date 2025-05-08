@@ -4,8 +4,13 @@ from typing import Optional
 from crud import criar_transacao_vale_transporte
 from database import get_db
 from fastapi import APIRouter, Depends, HTTPException, Query
-from model import ModeloTransporte, ModeloUsuario
-from schema import CriarTransacaoCarteira, LerTransacaoCarteira
+from model import (
+    ModeloDocumento,
+    ModeloRlUsuarioDocumento,
+    ModeloTransporte,
+    ModeloUsuario,
+)
+from schema import CriarTransacaoCarteira, LerDocumento, LerTransacaoCarteira
 from sqlalchemy.orm import Session
 from utils.auth import get_usuario_atual, verificar_bearer_token
 
@@ -134,6 +139,66 @@ async def post_transacao_carteira(
                 db=db, transacao_carteira=transacao
             )
             return db_transacao
+
+    except HTTPException as e:
+        raise e
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+
+
+@router_transacao.get(
+    "/saldo_vt/{id_usuario}",
+    response_model=LerDocumento,
+    summary="Consultar saldo do vale transporte",
+    description="""
+                    Consulta o saldo atual do vale transporte de um usuário.
+                    """,
+    dependencies=[Depends(get_usuario_atual), Depends(verificar_bearer_token)],
+)
+async def get_saldo_vale_transporte(
+    id_usuario: str,
+    db: Session = Depends(get_db),
+):
+    """
+    Consulta o saldo atual do vale transporte de um usuário.
+    """
+    try:
+        usuario = (
+            db.query(ModeloUsuario)
+            .filter(ModeloUsuario.usuario_id == id_usuario)
+            .first()
+        )
+        if not usuario:
+            raise HTTPException(
+                status_code=404, detail=f"Usuário com ID {id_usuario} não encontrado"
+            )
+
+        vale_transporte = (
+            db.query(ModeloDocumento, ModeloRlUsuarioDocumento.saldo)
+            .join(
+                ModeloRlUsuarioDocumento,
+                ModeloRlUsuarioDocumento.documento_id == ModeloDocumento.documento_id,
+            )
+            .filter(
+                ModeloDocumento.descricao_documento == "VALE TRANSPORTE",
+                ModeloRlUsuarioDocumento.usuario_id == id_usuario,
+            )
+            .first()
+        )
+
+        if not vale_transporte:
+            raise HTTPException(
+                status_code=404,
+                detail="Vale transporte não encontrado para este usuário",
+            )
+
+        doc, saldo = vale_transporte
+        return {
+            "documento_id": doc.documento_id,
+            "descricao_documento": doc.descricao_documento,
+            "sigla_documento": doc.sigla_documento,
+            "saldo": saldo,
+        }
 
     except HTTPException as e:
         raise e
