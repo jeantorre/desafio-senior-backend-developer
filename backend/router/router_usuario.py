@@ -82,7 +82,6 @@ async def get_usuario(
     description="""
                     Registra um novo usuário no sistema.
                     """,
-    dependencies=[Depends(get_usuario_atual), Depends(verificar_bearer_token)],
 )
 async def post_usuario(
     usuario: CriarUsuario,
@@ -105,6 +104,9 @@ async def post_usuario(
     summary="Atualizar um usuário existente",
     description="""
                  Atualiza as informações de um usuário existente.
+                 Para atualizar a senha, é necessário fornecer:
+                 - senha_atual: A senha atual do usuário
+                 - nova_senha: A nova senha desejada
                  """,
     dependencies=[Depends(get_usuario_atual), Depends(verificar_bearer_token)],
 )
@@ -115,11 +117,9 @@ async def update_usuario(
 ):
     """
     Atualiza as informações de um usuário existente.
-    Só podem ser atualizadas as informações de:
-    - Telefone
-    - Celular
-    - Email
-    - Senha
+    Para atualizar a senha, é necessário fornecer:
+    - senha_atual: A senha atual do usuário
+    - nova_senha: A nova senha desejada
     """
     try:
         usuario_destino = ler_usuario(db=db, usuario_id=id_usuario)

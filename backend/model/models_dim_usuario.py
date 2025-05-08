@@ -16,10 +16,6 @@ class ModeloUsuario(Base):
     Atributos:
         usuario_id (str): Identificador único do usuário.
         nome (str): Nome do usuário.
-        data_nascimento (str): Data de nascimento do usuário.
-        cpf (str): CPF do usuário.
-        telefone (str): Telefone do usuário.
-        celular (str): Celular do usuário.
         email (str): Email do usuário.
         data_cadastro (datetime): Data e hora do cadastro do usuário.
         data_atualizacao (datetime): Data e hora da última
@@ -36,10 +32,6 @@ class ModeloUsuario(Base):
         comment="Identificador único do usuário.",
     )
     nome_usuario: str = Column(String, comment="Nome do usuário.")
-    data_nascimento: str = Column(String, comment="Data de nascimento do usuário.")
-    cpf: str = Column(String, unique=True, comment="CPF do usuário.")
-    telefone_usuario: str = Column(String, comment="Telefone do usuário.")
-    celular_usuario: str = Column(String, comment="Celular do usuário.")
     email_usuario: str = Column(String, comment="Email do usuário.")
     senha: str = Column(String, comment="Hash da senha do usuário.")
     data_cadastro: datetime = Column(

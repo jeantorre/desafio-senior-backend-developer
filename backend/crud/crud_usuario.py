@@ -61,15 +61,11 @@ def criar_usuario(db: Session, usuario: CriarUsuario) -> None:
     param: usuario: CriarUsuario
     return: None
     """
-    if get_usuario_cpf(db, usuario.cpf):
-        raise HTTPException(status_code=400, detail="CPF já cadastrado")
     if get_usuario_email(db, usuario.email_usuario):
         raise HTTPException(status_code=400, detail="Email já cadastrado")
 
     senha_hash = ModeloUsuario.gerar_senha_hash(usuario.senha)
-    db_usuario = ModeloUsuario(
-        **usuario.model_dump(exclude={"senha"}), senha=senha_hash
-    )
+    db_usuario = ModeloUsuario(**usuario.model_dump(exclude={"senha"}), senha=senha_hash)
 
     db.add(db_usuario)
     db.commit()
@@ -127,14 +123,19 @@ def atualizar_usuario(db: Session, usuario_id: str, usuario: AtualizarUsuario) -
     )
     if not db_usuario:
         raise HTTPException(status_code=404, detail="Usuário não encontrado")
-    if usuario.telefone_usuario is not None:
-        db_usuario.telefone_usuario = usuario.telefone_usuario
-    if usuario.celular_usuario is not None:
-        db_usuario.celular_usuario = usuario.celular_usuario
-    if usuario.email_usuario is not None:
-        db_usuario.email_usuario = usuario.email_usuario
-    if usuario.senha is not None:
-        db_usuario.senha = usuario.senha
+
+    if usuario.nova_senha is not None:
+        if usuario.senha_atual is None:
+            raise HTTPException(
+                status_code=400,
+                detail="Senha atual é obrigatória para atualizar a senha",
+            )
+
+        if not validar_senha(db_usuario, usuario.senha_atual):
+            raise HTTPException(status_code=400, detail="Senha atual incorreta")
+
+        db_usuario.senha = ModeloUsuario.gerar_senha_hash(usuario.nova_senha)
+
     db_usuario.data_atualizacao = datetime.now(timezone("America/Sao_Paulo"))
     db.commit()
     db.refresh(db_usuario)
