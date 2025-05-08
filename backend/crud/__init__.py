@@ -4,7 +4,10 @@ from .crud_documento import (
     ler_documento,
     ler_documentos,
 )
-from .crud_rl_usuario_documento import ler_rl_usuario_documentos
+from .crud_rl_usuario_documento import (
+    associar_vale_transporte,
+    ler_rl_usuario_documentos,
+)
 from .crud_transacao_carteira import (
     criar_transacao_vale_transporte,
     deletar_transacao_carteira,
@@ -44,6 +47,7 @@ __all__ = [
     "ler_documento",
     "ler_documentos",
     "ler_rl_usuario_documentos",
+    "associar_vale_transporte",
     "criar_transacao_vale_transporte",
     "deletar_transacao_carteira",
     "ler_transacao_carteira",

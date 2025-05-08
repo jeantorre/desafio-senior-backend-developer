@@ -1,6 +1,12 @@
 from typing import List, Optional
 
-from crud import criar_documento, deletar_documento, ler_documento, ler_documentos
+from crud import (
+    associar_vale_transporte,
+    criar_documento,
+    deletar_documento,
+    ler_documento,
+    ler_documentos,
+)
 from database import get_db
 from fastapi import APIRouter, Depends, HTTPException, Query
 from schema import CriarDocumento, LerDocumento
@@ -51,6 +57,7 @@ async def get_documentos(
                     Retorna as informações detalhadas de um documento específico.
                     """,
     dependencies=[Depends(get_usuario_atual), Depends(verificar_bearer_token)],
+    include_in_schema=False,
 )
 async def get_documento(
     id_documento: str,
@@ -122,3 +129,35 @@ async def delete_documento(
         raise
     except Exception as e:
         raise HTTPException(status_code=500, detail=e)
+
+
+@router_documento.post(
+    "/associa_vt/{id_usuario}",
+    response_model=LerDocumento,
+    summary="Associar vale transporte a um usuário",
+    description="""
+                    Associa um documento de vale transporte a um usuário.
+                    O saldo inicial será zero.
+                    """,
+    dependencies=[Depends(get_usuario_atual), Depends(verificar_bearer_token)],
+)
+async def associa_vale_transporte(
+    id_usuario: str,
+    db: Session = Depends(get_db),
+):
+    """
+    Associa um documento de vale transporte a um usuário. O saldo inicial será zero.
+    """
+    try:
+        relacao = associar_vale_transporte(db=db, usuario_id=id_usuario)
+        documento = ler_documento(db=db, documento_id=relacao.documento_id)
+        return {
+            "documento_id": documento.documento_id,
+            "descricao_documento": documento.descricao_documento,
+            "sigla_documento": documento.sigla_documento,
+            "saldo": relacao.saldo,
+        }
+    except HTTPException as e:
+        raise e
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
