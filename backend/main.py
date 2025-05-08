@@ -3,7 +3,13 @@ from dotenv import load_dotenv
 from fastapi import FastAPI, HTTPException, Request
 from fastapi.exceptions import RequestValidationError
 from fastapi.middleware.cors import CORSMiddleware
-from router import router_auth, router_documento, router_transporte, router_usuario
+from router import (
+    router_auth,
+    router_documento,
+    router_transacao,
+    router_transporte,
+    router_usuario,
+)
 from utils.init_db import reset_db
 
 load_dotenv()
@@ -66,3 +72,4 @@ app.include_router(router_auth)
 app.include_router(router_usuario)
 app.include_router(router_documento)
 app.include_router(router_transporte)
+app.include_router(router_transacao)
