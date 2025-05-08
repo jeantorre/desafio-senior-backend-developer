@@ -53,6 +53,7 @@ async def get_documentos(
                     Retorna as informações detalhadas de um transporte específico.
                     """,
     dependencies=[Depends(get_usuario_atual), Depends(verificar_bearer_token)],
+    include_in_schema=False,
 )
 async def get_transporte(
     id_transporte: str,
@@ -80,6 +81,7 @@ async def get_transporte(
                     Registra um novo transporte no sistema.
                     """,
     dependencies=[Depends(get_usuario_atual), Depends(verificar_bearer_token)],
+    include_in_schema=False,
 )
 async def post_transporte(
     transporte: CriarTransporte,
@@ -104,6 +106,7 @@ async def post_transporte(
                               Deleta um estabelecimento existente do sistema.
                               """,
     dependencies=[Depends(get_usuario_atual), Depends(verificar_bearer_token)],
+    include_in_schema=False,
 )
 async def delete_transporte(
     id_transporte: str,
