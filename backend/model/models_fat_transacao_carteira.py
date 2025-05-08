@@ -13,6 +13,7 @@ from sqlalchemy import ForeignKey, Numeric, String
 class TipoTransacao(str, Enum):
     ENTRADA = "ENTRADA"
     SAIDA = "SAIDA"
+    ESTORNO = "ESTORNO"
 
 
 class ModeloTransacaoCarteira(Base):
@@ -25,7 +26,7 @@ class ModeloTransacaoCarteira(Base):
         documento_id (str): Identificador único do documento.
         valor_transacao (decimal): Valor da transação.
         tipo_transacao (str): Tipo de transação.
-        data_hora_transacao (datetime): Data e hora da transação.
+        data_transacao (datetime): Data e hora da transação.
     """
 
     __tablename__ = "fat_transacao_carteira"
@@ -55,7 +56,7 @@ class ModeloTransacaoCarteira(Base):
     tipo_transacao: TipoTransacao = Column(
         SQLAlchemyEnum(TipoTransacao), nullable=False, comment="Tipo de transação."
     )
-    data_hora_transacao: datetime = Column(
+    data_transacao: datetime = Column(
         DateTime(timezone=True),
         default=lambda: datetime.now(timezone("America/Sao_Paulo")),
         nullable=False,
