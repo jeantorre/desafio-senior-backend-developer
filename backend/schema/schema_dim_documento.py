@@ -16,7 +16,6 @@ class DocumentoBase(BaseModel):
 
     descricao_documento: str = Field(..., description="Descrição do documento")
     sigla_documento: Optional[str] = Field(None, description="Sigla do documento")
-    saldo: Optional[Decimal] = Field(None, description="Saldo do documento")
 
     _normalizacao_strings_ = field_validator(
         "descricao_documento", "sigla_documento", mode="before"

@@ -1,9 +1,8 @@
 import uuid
-from decimal import Decimal
 from typing import Optional
 
 from database import Base
-from sqlalchemy import Column, Numeric, String
+from sqlalchemy import Column, String
 
 
 class ModeloDocumento(Base):
@@ -27,6 +26,3 @@ class ModeloDocumento(Base):
     )
     descricao_documento: str = Column(String, comment="Descrição do documento.")
     sigla_documento: Optional[str] = Column(String, comment="Sigla do documento.")
-    saldo: Optional[Decimal] = Column(
-        Numeric(10, 2), comment="Quando aplicável, representa o saldo do documento."
-    )
