@@ -16,7 +16,7 @@ def ler_rl_usuario_documentos(
     return: list[LerDocumento]
     """
     documentos = (
-        db.query(ModeloDocumento)
+        db.query(ModeloDocumento, ModeloRlUsuarioDocumento.saldo)
         .join(
             ModeloRlUsuarioDocumento,
             ModeloRlUsuarioDocumento.documento_id == ModeloDocumento.documento_id,
@@ -31,4 +31,15 @@ def ler_rl_usuario_documentos(
             detail=f"Nenhum documento encontrado para o usuário {usuario_id}",
         )
 
-    return documentos
+    resultado = []
+    for doc, saldo in documentos:
+        resultado.append(
+            {
+                "documento_id": doc.documento_id,
+                "descricao_documento": doc.descricao_documento,
+                "sigla_documento": doc.sigla_documento,
+                "saldo": saldo,
+            }
+        )
+
+    return resultado
