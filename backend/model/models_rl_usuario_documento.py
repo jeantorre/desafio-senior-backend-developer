@@ -1,9 +1,11 @@
 import uuid
 from datetime import datetime
+from decimal import Decimal
+from typing import Optional
 
 from database import Base
 from pytz import timezone
-from sqlalchemy import Column, DateTime, ForeignKey, String
+from sqlalchemy import Column, DateTime, ForeignKey, Numeric, String
 
 
 class ModeloRlUsuarioDocumento(Base):
@@ -40,6 +42,9 @@ class ModeloRlUsuarioDocumento(Base):
         ForeignKey("dim_documento.documento_id", ondelete="CASCADE"),
         nullable=False,
         comment="ID do documento.",
+    )
+    saldo: Optional[Decimal] = Column(
+        Numeric(10, 2), comment="Quando aplicável, representa o saldo do documento."
     )
     data_cadastro: datetime = Column(
         DateTime(timezone=True),
