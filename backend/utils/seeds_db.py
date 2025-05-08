@@ -18,28 +18,16 @@ def criar_usuarios(db: Session) -> None:
     usuarios = [
         {
             "nome_usuario": "Jãn Teste 1",
-            "data_nascimento": "11/11/2011",
-            "cpf": "00000000000",
-            "telefone_usuario": "21999999999",
-            "celular_usuario": "21999999999",
             "email_usuario": "teste1@teste.com",
             "senha": "teste1234",
         },
         {
             "nome_usuario": "Jãn Teste 2",
-            "data_nascimento": "11/11/2011",
-            "cpf": "11111111111",
-            "telefone_usuario": "21999999999",
-            "celular_usuario": "21999999999",
             "email_usuario": "teste2@teste.com",
             "senha": "teste1234",
         },
         {
             "nome_usuario": "Jãn Teste 3",
-            "data_nascimento": "11/11/2011",
-            "cpf": "22222222222",
-            "telefone_usuario": "21999999999",
-            "celular_usuario": "21999999999",
             "email_usuario": "teste3@teste.com",
             "senha": "teste1234",
         },
@@ -120,7 +108,7 @@ def criar_relacoes_usuario_documento(db: Session) -> None:
         for usuario in usuarios:
             for documento in documentos:
                 if documento.descricao_documento == "VALE TRANSPORTE":
-                    saldo = 100.00
+                    saldo = 10.00
                 else:
                     saldo = None
                 relacao = ModeloRlUsuarioDocumento(
