@@ -84,12 +84,8 @@ def criar_documentos(db: Session) -> None:
             "descricao_documento": "Carteira Nacional de Habilitação",
             "sigla_documento": "CNH",
         },
-        {
-            "descricao_documento": "Vale Transporte",
-            "sigla_documento": "VT",
-            "saldo": 100,
-        },
-        {"descricao_documento": "Vale Alimentação", "sigla_documento": "VA", "saldo": 0},
+        {"descricao_documento": "Vale Transporte", "sigla_documento": "VT"},
+        {"descricao_documento": "Vale Alimentação", "sigla_documento": "VA"},
     ]
 
     try:
@@ -123,8 +119,14 @@ def criar_relacoes_usuario_documento(db: Session) -> None:
         relacoes = []
         for usuario in usuarios:
             for documento in documentos:
+                if documento.descricao_documento == "VALE TRANSPORTE":
+                    saldo = 100.00
+                else:
+                    saldo = None
                 relacao = ModeloRlUsuarioDocumento(
-                    usuario_id=usuario.usuario_id, documento_id=documento.documento_id
+                    usuario_id=usuario.usuario_id,
+                    documento_id=documento.documento_id,
+                    saldo=saldo,
                 )
                 db.add(relacao)
                 relacoes.append(relacao)
