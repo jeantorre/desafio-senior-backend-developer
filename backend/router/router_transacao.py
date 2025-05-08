@@ -1,9 +1,10 @@
 from decimal import Decimal
+from typing import Optional
 
 from crud import criar_transacao_vale_transporte
 from database import get_db
 from fastapi import APIRouter, Depends, HTTPException, Query
-from model import ModeloUsuario
+from model import ModeloTransporte, ModeloUsuario
 from schema import CriarTransacaoCarteira, LerTransacaoCarteira
 from sqlalchemy.orm import Session
 from utils.auth import get_usuario_atual, verificar_bearer_token
@@ -30,10 +31,13 @@ router_transacao = APIRouter(
 )
 async def post_transacao_carteira(
     id_usuario: str,
-    valor_transacao: Decimal = Query(..., description="Valor da transação"),
     tipo_transacao: int = Query(
-        ..., description="Tipo de transação (1=ENTRADA, 2=SAIDA)"
+        ..., description="Tipo de transação (1=Entrada, 2=Saída)"
     ),
+    tipo_transporte: Optional[int] = Query(
+        None, description="Tipo de transporte (1=Ônibus, 2=Metrô, 3=Trem)"
+    ),
+    valor_transacao: Optional[Decimal] = Query(None, description="Valor da transação"),
     db: Session = Depends(get_db),
 ):
     """
@@ -56,24 +60,82 @@ async def post_transacao_carteira(
                 detail="Tipo de transação inválido. Use 1 para ENTRADA ou 2 para SAIDA",
             )
 
-        tipo_transacao_str = "ENTRADA" if tipo_transacao == 1 else "SAIDA"
+        if tipo_transacao == 1:
+            if valor_transacao is None:
+                raise HTTPException(
+                    status_code=400,
+                    detail=(
+                        "Valor da transação é obrigatório para recarga do vale "
+                        "transporte"
+                    ),
+                )
+            if valor_transacao <= 0:
+                raise HTTPException(
+                    status_code=400,
+                    detail="Valor da transação deve ser maior que 0",
+                )
 
-        transacao = CriarTransacaoCarteira(
-            usuario_id=id_usuario,
-            documento_id="",  # Será preenchido na função criar_transacao_vale_transporte
-            valor_transacao=valor_transacao,
-            tipo_transacao=tipo_transacao_str,
-        )
+            transacao = CriarTransacaoCarteira(
+                usuario_id=id_usuario,
+                documento_id="",
+                valor_transacao=valor_transacao,
+                tipo_transacao="ENTRADA",
+            )
 
-        db_transacao = criar_transacao_vale_transporte(
-            db=db, transacao_carteira=transacao
-        )
-        return db_transacao
+            db_transacao = criar_transacao_vale_transporte(
+                db=db, transacao_carteira=transacao
+            )
+            return db_transacao
+
+        elif tipo_transacao == 2:
+            if tipo_transporte is None:
+                raise HTTPException(
+                    status_code=400,
+                    detail=(
+                        "Tipo de transporte é obrigatório para saída do vale transporte"
+                    ),
+                )
+
+            if tipo_transporte not in [1, 2, 3]:
+                raise HTTPException(
+                    status_code=400,
+                    detail=(
+                        "Tipo de transporte inválido. Use 1 para Ônibus, 2 para Metrô "
+                        "ou 3 para Trem"
+                    ),
+                )
+
+            tipo_transporte_str = (
+                "ONIBUS"
+                if tipo_transporte == 1
+                else "METRO" if tipo_transporte == 2 else "TREM"
+            )
+
+            meio_transporte = (
+                db.query(ModeloTransporte)
+                .filter(ModeloTransporte.descricao_transporte == tipo_transporte_str)
+                .first()
+            )
+
+            if not meio_transporte:
+                raise HTTPException(
+                    status_code=404,
+                    detail=f"Transporte {tipo_transporte_str} não encontrado",
+                )
+
+            transacao = CriarTransacaoCarteira(
+                usuario_id=id_usuario,
+                documento_id="",
+                valor_transacao=meio_transporte.valor_passagem,
+                tipo_transacao="SAIDA",
+            )
+
+            db_transacao = criar_transacao_vale_transporte(
+                db=db, transacao_carteira=transacao
+            )
+            return db_transacao
+
     except HTTPException as e:
-        if e.status_code == 404:
-            raise HTTPException(status_code=404, detail=str(e.detail))
-        if e.status_code == 400:
-            raise HTTPException(status_code=400, detail=str(e.detail))
-        raise
+        raise e
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
