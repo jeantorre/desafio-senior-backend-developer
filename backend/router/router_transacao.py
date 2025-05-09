@@ -7,6 +7,7 @@ from fastapi import APIRouter, Depends, HTTPException, Query
 from model import (
     ModeloDocumento,
     ModeloRlUsuarioDocumento,
+    ModeloTipoTransacao,
     ModeloTransporte,
     ModeloUsuario,
 )
@@ -65,6 +66,19 @@ async def post_transacao_carteira(
                 detail="Tipo de transação inválido. Use 1 para ENTRADA ou 2 para SAIDA",
             )
 
+        tipo_transacao_str = "ENTRADA" if tipo_transacao == 1 else "SAIDA"
+        tipo_transacao_obj = (
+            db.query(ModeloTipoTransacao)
+            .filter(ModeloTipoTransacao.descricao_tipo_transacao == tipo_transacao_str)
+            .first()
+        )
+
+        if not tipo_transacao_obj:
+            raise HTTPException(
+                status_code=404,
+                detail=f"Tipo de transação {tipo_transacao_str} não encontrado",
+            )
+
         if tipo_transacao == 1:
             if valor_transacao is None:
                 raise HTTPException(
@@ -84,7 +98,7 @@ async def post_transacao_carteira(
                 usuario_id=id_usuario,
                 documento_id="",
                 valor_transacao=valor_transacao,
-                tipo_transacao="ENTRADA",
+                tipo_transacao_id=tipo_transacao_obj.tipo_transacao_id,
             )
 
             db_transacao = criar_transacao_vale_transporte(
@@ -132,7 +146,7 @@ async def post_transacao_carteira(
                 usuario_id=id_usuario,
                 documento_id="",
                 valor_transacao=meio_transporte.valor_passagem,
-                tipo_transacao="SAIDA",
+                tipo_transacao_id=tipo_transacao_obj.tipo_transacao_id,
             )
 
             db_transacao = criar_transacao_vale_transporte(

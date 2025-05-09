@@ -4,6 +4,7 @@ from fastapi import HTTPException
 from model import (
     ModeloDocumento,
     ModeloRlUsuarioDocumento,
+    ModeloTipoTransacao,
     ModeloTransacaoCarteira,
     ModeloUsuario,
 )
@@ -58,9 +59,20 @@ def criar_transacao_vale_transporte(
     if vale_transporte.saldo is None:
         vale_transporte.saldo = 0
 
-    if transacao_carteira.tipo_transacao == "ENTRADA":
+    tipo_transacao = (
+        db.query(ModeloTipoTransacao)
+        .filter(
+            ModeloTipoTransacao.tipo_transacao_id == transacao_carteira.tipo_transacao_id
+        )
+        .first()
+    )
+
+    if not tipo_transacao:
+        raise HTTPException(status_code=404, detail="Tipo de transação não encontrado")
+
+    if tipo_transacao.descricao_tipo_transacao == "ENTRADA":
         vale_transporte.saldo += transacao_carteira.valor_transacao
-    elif transacao_carteira.tipo_transacao == "SAIDA":
+    elif tipo_transacao.descricao_tipo_transacao == "SAIDA":
         if vale_transporte.saldo < transacao_carteira.valor_transacao:
             raise HTTPException(
                 status_code=400, detail="Saldo insuficiente para realizar a transação"
@@ -145,7 +157,16 @@ def deletar_transacao_carteira(db: Session, transacao_carteira_id: str) -> None:
             status_code=404, detail="Transação de carteira não encontrada"
         )
 
-    if db_transacao_carteira.tipo_transacao == "ENTRADA":
+    tipo_transacao = (
+        db.query(ModeloTipoTransacao)
+        .filter(
+            ModeloTipoTransacao.tipo_transacao_id
+            == db_transacao_carteira.tipo_transacao_id
+        )
+        .first()
+    )
+
+    if tipo_transacao.descricao_tipo_transacao == "ENTRADA":
         raise HTTPException(
             status_code=400, detail="Não é possível estornar uma entrada"
         )
@@ -161,11 +182,22 @@ def deletar_transacao_carteira(db: Session, transacao_carteira_id: str) -> None:
 
     documento.saldo += db_transacao_carteira.valor_transacao
 
+    tipo_transacao_estorno = (
+        db.query(ModeloTipoTransacao)
+        .filter(ModeloTipoTransacao.descricao_tipo_transacao == "ESTORNO")
+        .first()
+    )
+
+    if not tipo_transacao_estorno:
+        raise HTTPException(
+            status_code=404, detail="Tipo de transação ESTORNO não encontrado"
+        )
+
     estorno = ModeloTransacaoCarteira(
         usuario_id=db_transacao_carteira.usuario_id,
         documento_id=db_transacao_carteira.documento_id,
         valor_transacao=db_transacao_carteira.valor_transacao,
-        tipo_transacao="ESTORNO",
+        tipo_transacao_id=tipo_transacao_estorno.tipo_transacao_id,
     )
 
     db.add(estorno)

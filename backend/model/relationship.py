@@ -1,6 +1,7 @@
 from sqlalchemy.orm import relationship
 
 from .models_dim_documento import ModeloDocumento
+from .models_dim_tipo_transacao import ModeloTipoTransacao
 from .models_dim_usuario import ModeloUsuario
 from .models_fat_transacao_carteira import ModeloTransacaoCarteira
 
@@ -23,4 +24,11 @@ ModeloTransacaoCarteira.documento = relationship(
 )
 ModeloDocumento.transacoes = relationship(
     "ModeloTransacaoCarteira", back_populates="documento"
+)
+
+ModeloTransacaoCarteira.tipo_transacao = relationship(
+    "ModeloTipoTransacao", back_populates="transacoes"
+)
+ModeloTipoTransacao.transacoes = relationship(
+    "ModeloTransacaoCarteira", back_populates="tipo_transacao"
 )

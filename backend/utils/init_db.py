@@ -4,6 +4,7 @@ from sqlalchemy import text
 from .seeds_db import (
     criar_documentos,
     criar_relacoes_usuario_documento,
+    criar_tipo_transacao,
     criar_transportes,
     criar_usuarios,
 )
@@ -23,6 +24,7 @@ def reset_db(engine) -> None:
             connection.commit()
         Base.metadata.create_all(bind=engine)
         db = SessionLocal()
+        criar_tipo_transacao(db)
         criar_usuarios(db)
         criar_documentos(db)
         criar_relacoes_usuario_documento(db)

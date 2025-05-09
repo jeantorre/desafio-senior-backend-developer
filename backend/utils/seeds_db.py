@@ -1,11 +1,36 @@
 from model import (
     ModeloDocumento,
     ModeloRlUsuarioDocumento,
+    ModeloTipoTransacao,
     ModeloTransporte,
     ModeloUsuario,
 )
-from schema import DocumentoBase, TransporteBase, UsuarioBase
+from schema import DocumentoBase, TipoTransacaoBase, TransporteBase, UsuarioBase
 from sqlalchemy.orm import Session
+
+
+def criar_tipo_transacao(db: Session) -> None:
+    """
+    Função responsável por criar tipos de transação no sistema
+
+    param: db: Session
+    return: None
+    """
+    tipo_transacoes = ["ENTRADA", "SAIDA", "ESTORNO"]
+    try:
+        db_tipo_transacoes = []
+        for tipo_transacao in tipo_transacoes:
+            tipo_transacao = TipoTransacaoBase(descricao_tipo_transacao=tipo_transacao)
+            db_tipo_transacao = ModeloTipoTransacao(**tipo_transacao.model_dump())
+            db.add(db_tipo_transacao)
+            db_tipo_transacoes.append(db_tipo_transacao)
+        db.commit()
+        for db_tipo_transacao in db_tipo_transacoes:
+            db.refresh(db_tipo_transacao)
+        print("Tipos de transações criados com sucesso!")
+    except Exception as e:
+        print(f"Erro ao criar tipos de transações: {e}")
+        db.rollback()
 
 
 def criar_usuarios(db: Session) -> None:

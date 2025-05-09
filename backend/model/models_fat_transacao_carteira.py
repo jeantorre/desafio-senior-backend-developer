@@ -1,19 +1,10 @@
 import uuid
 from datetime import datetime
 from decimal import Decimal
-from enum import Enum
 
 from database import Base
 from pytz import timezone
-from sqlalchemy import Column, DateTime
-from sqlalchemy import Enum as SQLAlchemyEnum
-from sqlalchemy import ForeignKey, Numeric, String
-
-
-class TipoTransacao(str, Enum):
-    ENTRADA = "ENTRADA"
-    SAIDA = "SAIDA"
-    ESTORNO = "ESTORNO"
+from sqlalchemy import Column, DateTime, ForeignKey, Numeric, String
 
 
 class ModeloTransacaoCarteira(Base):
@@ -24,8 +15,8 @@ class ModeloTransacaoCarteira(Base):
         transacao_id (str): Identificador único da transação.
         usuario_id (str): Identificador único do usuário.
         documento_id (str): Identificador único do documento.
+        tipo_transacao_id (str): Identificador único do tipo de transação.
         valor_transacao (decimal): Valor da transação.
-        tipo_transacao (str): Tipo de transação.
         data_transacao (datetime): Data e hora da transação.
     """
 
@@ -52,10 +43,13 @@ class ModeloTransacaoCarteira(Base):
         nullable=False,
         comment="ID do documento.",
     )
-    valor_transacao: Decimal = Column(Numeric(10, 2), comment="Valor da transação.")
-    tipo_transacao: TipoTransacao = Column(
-        SQLAlchemyEnum(TipoTransacao), nullable=False, comment="Tipo de transação."
+    tipo_transacao_id: str = Column(
+        String,
+        ForeignKey("dim_tipo_transacao.tipo_transacao_id", ondelete="CASCADE"),
+        nullable=False,
+        comment="ID do tipo de transação.",
     )
+    valor_transacao: Decimal = Column(Numeric(10, 2), comment="Valor da transação.")
     data_transacao: datetime = Column(
         DateTime(timezone=True),
         default=lambda: datetime.now(timezone("America/Sao_Paulo")),
