@@ -1,4 +1,4 @@
-FROM python:3.12.4 as base
+FROM python:3.12.4 AS base
 RUN apt-get update && apt-get install -y \
     portaudio19-dev \
     && apt-get clean \
@@ -11,9 +11,10 @@ COPY pyproject.toml poetry.lock* /app/
 RUN poetry install --no-root
 
 
-FROM base as development
+FROM base AS development
 COPY . /app/
-COPY tests /app/tests/
+ENV PYTHONPATH=/app
 
-FROM base as production
+FROM base AS production
 COPY . /app/
+ENV PYTHONPATH=/app
