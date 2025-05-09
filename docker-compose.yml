@@ -19,6 +19,11 @@ services:
     depends_on:
       postgres:
         condition: service_healthy
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8090/health/"]
+      interval: 60s
+      timeout: 10s
+      retries: 3
     networks:
       - app-network
 
