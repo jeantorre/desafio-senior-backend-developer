@@ -63,3 +63,6 @@ exclude = '''
 tests = "pytest -v"
 docs = "mkdocs serve"
 deploy = "mkdocs gh-deploy"
+migrate = "alembic -c alembic.ini upgrade head"
+makemigrations = "alembic -c alembic.ini revision --autogenerate -m"
+downgrade = "alembic -c alembic.ini downgrade -1"
