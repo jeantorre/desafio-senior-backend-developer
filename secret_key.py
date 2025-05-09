@@ -9,7 +9,8 @@ def criar_secret_key():
     Gera e salva uma secret key para funcionamento da aplicação, caso ela ainda não tenha
     sido criada.
     """
-    dotenv_path = os.path.join(os.getcwd(), ".env.desafio")
+    environment = os.getenv("ENVIRONMENT", "dev")
+    dotenv_path = os.path.join(os.getcwd(), f".env.{environment}")
 
     if not os.path.isfile(dotenv_path):
         print(f"Arquivo {dotenv_path} não encontrado.")

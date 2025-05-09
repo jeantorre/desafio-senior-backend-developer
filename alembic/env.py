@@ -7,7 +7,8 @@ from sqlalchemy import engine_from_config, pool
 from alembic import context
 from backend.database import Base
 
-load_dotenv(".env.desafio")
+environment = os.getenv("ENVIRONMENT", "dev")
+load_dotenv(f".env.{environment}")
 
 database_url = os.getenv("DATABASE_URL_ALEMBIC")
 

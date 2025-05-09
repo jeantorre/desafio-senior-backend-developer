@@ -1,3 +1,5 @@
+import os
+
 from database import SessionLocal, engine
 from dotenv import load_dotenv
 from fastapi import FastAPI, HTTPException, Request
@@ -11,13 +13,19 @@ from router import (
     router_transporte,
     router_usuario,
 )
-from utils.init_db import reset_db
+from utils.init_db import init_prod_db, reset_db
 
-load_dotenv()
+environment = os.getenv("ENVIRONMENT", "dev")
+load_dotenv(f".env.{environment}")
 
-reset_db(engine)
-db = SessionLocal()
-db.close()
+if os.getenv("ENVIRONMENT") == "dev":
+    reset_db(engine)
+    db = SessionLocal()
+    db.close()
+else:
+    init_prod_db(engine)
+    db = SessionLocal()
+    db.close()
 
 app = FastAPI(
     title="Desafio Técnico - Desenvolvedor Backend Sênior - Iplan Rio",
