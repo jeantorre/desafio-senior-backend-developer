@@ -89,3 +89,48 @@ def associar_vale_transporte(db: Session, usuario_id: str) -> None:
     db.commit()
     db.refresh(nova_relacao)
     return nova_relacao
+
+
+def associar_documento(db: Session, usuario_id: str, documento_id: str) -> None:
+    """
+    Função responsável por associar um documento a um usuário
+
+    param: db: Session
+    param: usuario_id: str
+    param: documento_id: str
+    return: None
+    """
+    usuario = (
+        db.query(ModeloUsuario).filter(ModeloUsuario.usuario_id == usuario_id).first()
+    )
+    if not usuario:
+        raise HTTPException(status_code=404, detail="Usuário não encontrado")
+
+    documento = (
+        db.query(ModeloDocumento)
+        .filter(ModeloDocumento.documento_id == documento_id)
+        .first()
+    )
+    if not documento:
+        raise HTTPException(status_code=404, detail="Documento não encontrado")
+
+    relacao_existente = (
+        db.query(ModeloRlUsuarioDocumento)
+        .filter(
+            ModeloRlUsuarioDocumento.usuario_id == usuario_id,
+            ModeloRlUsuarioDocumento.documento_id == documento.documento_id,
+        )
+        .first()
+    )
+    if relacao_existente:
+        raise HTTPException(status_code=400, detail="Documento já associado ao usuário")
+
+    nova_relacao = ModeloRlUsuarioDocumento(
+        usuario_id=usuario_id,
+        documento_id=documento.documento_id,
+        saldo=0.00,
+    )
+    db.add(nova_relacao)
+    db.commit()
+    db.refresh(nova_relacao)
+    return nova_relacao

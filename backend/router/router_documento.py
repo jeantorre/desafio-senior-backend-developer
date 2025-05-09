@@ -1,6 +1,7 @@
 from typing import List, Optional
 
 from crud import (
+    associar_documento,
     associar_vale_transporte,
     criar_documento,
     deletar_documento,
@@ -150,6 +151,40 @@ async def associa_vale_transporte(
     """
     try:
         relacao = associar_vale_transporte(db=db, usuario_id=id_usuario)
+        documento = ler_documento(db=db, documento_id=relacao.documento_id)
+        return {
+            "documento_id": documento.documento_id,
+            "descricao_documento": documento.descricao_documento,
+            "sigla_documento": documento.sigla_documento,
+            "saldo": relacao.saldo,
+        }
+    except HTTPException as e:
+        raise e
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+
+
+@router_documento.post(
+    "/associa_documento/{id_usuario}",
+    response_model=LerDocumento,
+    summary="Associar documento a um usuário",
+    description="""
+                    Associa um documento a um usuário.
+                    """,
+    dependencies=[Depends(get_usuario_atual), Depends(verificar_bearer_token)],
+)
+async def associa_documento(
+    id_usuario: str,
+    documento_id: str = Query(..., description="ID do documento a ser associado"),
+    db: Session = Depends(get_db),
+):
+    """
+    Associa um documento a um usuário.
+    """
+    try:
+        relacao = associar_documento(
+            db=db, usuario_id=id_usuario, documento_id=documento_id
+        )
         documento = ler_documento(db=db, documento_id=relacao.documento_id)
         return {
             "documento_id": documento.documento_id,

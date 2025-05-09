@@ -1,4 +1,3 @@
-from decimal import Decimal
 from typing import Optional
 
 from pydantic import BaseModel, ConfigDict, Field, field_validator
@@ -27,7 +26,6 @@ class LerDocumento(BaseModel):
     documento_id: str
     descricao_documento: str
     sigla_documento: Optional[str]
-    saldo: Optional[Decimal]
 
 
 class CriarDocumento(DocumentoBase):
