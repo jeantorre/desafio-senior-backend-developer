@@ -4,7 +4,7 @@ from dotenv import load_dotenv
 from sqlalchemy import create_engine
 from sqlalchemy.orm import declarative_base, sessionmaker
 
-load_dotenv()
+load_dotenv(".env.desafio")
 
 POSTGRES_DATABASE_URL = os.getenv("DATABASE_URL")
 engine = create_engine(POSTGRES_DATABASE_URL)
