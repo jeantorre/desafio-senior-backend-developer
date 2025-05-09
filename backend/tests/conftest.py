@@ -1,71 +1,72 @@
 import os
 import sys
-from typing import Generator
+from pathlib import Path
 
 import pytest
+
+backend_dir = str(Path(__file__).parent.parent)
+if backend_dir not in sys.path:
+    sys.path.append(backend_dir)
+
 import utils.init_db
 import utils.pydantic_validator
-from database import Base
+from database import Base, SessionLocal, engine, get_db
 from fastapi.testclient import TestClient
 from main import app
-from sqlalchemy import create_engine
-from sqlalchemy.orm import Session, sessionmaker
+from sqlalchemy.orm import Session
 
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
 
 
-os.environ["DATABASE_URL"] = "sqlite:///./test.db"
+os.environ["ENVIRONMENT"] = "dev"
 
 
-original_reset_db = utils.init_db.reset_db
-
-
-def mock_reset_db(*args, **kwargs):
-    pass
-
-
-utils.init_db.reset_db = mock_reset_db
-
-
-utils.init_db.reset_db = original_reset_db
-
-TEST_DATABASE_URL = "sqlite:///./test.db"
-engine = create_engine(TEST_DATABASE_URL, connect_args={"check_same_thread": False})
-TestingSessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
-
-
-def override_get_db():
-    try:
-        db = TestingSessionLocal()
-        yield db
-    finally:
-        db.close()
-
-
-@pytest.fixture(scope="function")
-def db() -> Generator[Session, None, None]:
+@pytest.fixture(scope="session", autouse=True)
+def teste_db():
+    """
+    Teste de criação e exclusão de tabelas no banco de dados
+    """
     Base.metadata.create_all(bind=engine)
-    db = TestingSessionLocal()
-    try:
-        yield db
-    finally:
-        db.close()
-        Base.metadata.drop_all(bind=engine)
+    yield
+    Base.metadata.drop_all(bind=engine)
 
 
 @pytest.fixture(scope="function")
-def client(db: Session) -> Generator[TestClient, None, None]:
-    app.dependency_overrides = {}
-    app.dependency_overrides["database.get_db"] = lambda: db
+def db():
+    """
+    Teste de rollback no banco de dados
+    """
+    conexao = engine.connect()
+    transacao = conexao.begin()
+    sessao = SessionLocal(bind=conexao)
 
-    with TestClient(app) as c:
-        yield c
+    yield sessao
 
-    app.dependency_overrides = {}
+    sessao.close()
+    transacao.rollback()
+    conexao.close()
 
 
 @pytest.fixture
-def test_user_data():
+def cliente(db: Session):
+    """
+    Cria um cliente de teste com uma sessão de banco de dados
+    """
+
+    def sobrepor_get_db():
+        try:
+            yield db
+        finally:
+            pass
+
+    app.dependency_overrides[get_db] = sobrepor_get_db
+    with TestClient(app) as test_client:
+        yield test_client
+    app.dependency_overrides.clear()
+
+
+@pytest.fixture
+def test_dados_usuarios():
     return {
         "nome_usuario": utils.pydantic_validator.maiuscula_sem_acento("Usuario Teste"),
         "email_usuario": "teste@teste.com",
@@ -74,24 +75,17 @@ def test_user_data():
 
 
 @pytest.fixture
-def test_documento_data():
+def test_dados_documento():
     return {
-        "tipo_documento": "RG",
-        "numero_documento": "123456789",
-        "data_expedicao": "2020-01-01",
-        "orgao_expedidor": "SSP",
+        "descricao_documento": "Carteira de Identidade",
+        "sigla_documento": "RG",
     }
-
-
-@pytest.fixture
-def test_transporte_data():
-    return {"tipo_transporte": "ONIBUS", "numero_cartao": "1234567890", "saldo": 100.0}
 
 
 @pytest.fixture
 def test_transacao_data():
     return {
         "valor_transacao": 50.0,
-        "tipo_transacao_id": "1",  # Assuming this ID exists
-        "transporte_id": "1",  # Will be replaced in tests
+        "tipo_transacao_id": "1",
+        "transporte_id": "1",
     }
