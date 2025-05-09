@@ -60,7 +60,7 @@ exclude = '''
 '''
 
 [tool.taskipy.tasks]
-tests = "pytest -v"
+tests = "PYTHONPATH=./backend pytest -v"
 docs = "mkdocs serve"
 deploy = "mkdocs gh-deploy"
 migrate = "alembic -c alembic.ini upgrade head"
