@@ -6,6 +6,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from router import (
     router_auth,
     router_documento,
+    router_teste_backend,
     router_transacao,
     router_transporte,
     router_usuario,
@@ -77,3 +78,4 @@ app.include_router(router_usuario)
 app.include_router(router_documento)
 app.include_router(router_transporte)
 app.include_router(router_transacao)
+app.include_router(router_teste_backend)
