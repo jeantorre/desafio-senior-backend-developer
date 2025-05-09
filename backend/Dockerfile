@@ -10,9 +10,10 @@ ENV POETRY_VIRTUALENVS_CREATE=false
 COPY pyproject.toml poetry.lock* /app/
 RUN poetry install --no-root
 
+
 FROM base as development
 COPY . /app/
-
+COPY tests /app/tests/
 
 FROM base as production
 COPY . /app/
