@@ -64,6 +64,12 @@ exclude = '''
 tests = "PYTHONPATH=./backend pytest -v"
 docs = "mkdocs serve"
 deploy = "mkdocs gh-deploy"
-migrate = "alembic -c alembic.ini upgrade head"
-makemigrations = "alembic -c alembic.ini revision --autogenerate -m"
-downgrade = "alembic -c alembic.ini downgrade -1"
+
+
+makemigrations-prod = "ENVIRONMENT=prod alembic -c alembic.ini revision --autogenerate -m"
+migrate-prod = "ENVIRONMENT=prod alembic -c alembic.ini upgrade head"
+downgrade-prod = "ENVIRONMENT=prod alembic -c alembic.ini downgrade -1"
+
+makemigrations-dev = "ENVIRONMENT=dev alembic -c alembic.ini revision --autogenerate -m"
+migrate-dev = "ENVIRONMENT=dev alembic -c alembic.ini upgrade head"
+downgrade-dev = "ENVIRONMENT=dev alembic -c alembic.ini downgrade -1"
