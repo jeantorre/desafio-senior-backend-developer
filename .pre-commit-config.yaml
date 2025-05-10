@@ -1,3 +1,4 @@
+exclude: ^(docs/|README\.md|mkdocs\.yml|\.pre-commit-config\.yaml)$
 repos:
   - repo: https://github.com/pre-commit/pre-commit-hooks
     rev: v4.5.0
@@ -61,4 +62,6 @@ repos:
         entry: hooks/docker-tests.sh
         language: script
         pass_filenames: false
-        always_run: true
+        files: \.py$
+        exclude: ^(docs/|README\.md|mkdocs\.yml|\.pre-commit-config\.yaml)$
+        
