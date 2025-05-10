@@ -1,22 +1,11 @@
 import os
-import sys
-from pathlib import Path
 
 import pytest
-
-backend_dir = str(Path(__file__).parent.parent)
-if backend_dir not in sys.path:
-    sys.path.append(backend_dir)
-
-import utils.init_db
-import utils.pydantic_validator
 from database import Base, SessionLocal, engine, get_db
 from fastapi.testclient import TestClient
 from main import app
 from sqlalchemy.orm import Session
-
-sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
-
+from utils.pydantic_validator import maiuscula_sem_acento
 
 os.environ["ENVIRONMENT"] = "dev"
 
@@ -68,7 +57,7 @@ def cliente(db: Session):
 @pytest.fixture
 def test_dados_usuarios():
     return {
-        "nome_usuario": utils.pydantic_validator.maiuscula_sem_acento("Usuario Teste"),
+        "nome_usuario": maiuscula_sem_acento("Usuario Teste"),
         "email_usuario": "teste@teste.com",
         "senha": "123456",
     }
