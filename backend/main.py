@@ -13,7 +13,7 @@ from router import (
     router_transporte,
     router_usuario,
 )
-from utils.init_db import init_prod_db, reset_db
+from utils import init_prod_db, reset_db
 
 environment = os.getenv("ENVIRONMENT", "dev")
 load_dotenv(f".env.{environment}")
