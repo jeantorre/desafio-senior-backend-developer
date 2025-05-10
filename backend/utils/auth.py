@@ -12,6 +12,7 @@ from fastapi.security import (
 )
 from jose import JWTError, jwt
 from model import ModeloUsuario
+from pytz import timezone
 from sqlalchemy.orm import Session
 
 load_dotenv()
@@ -28,9 +29,9 @@ bearer_scheme = HTTPBearer()
 def criar_token_acesso(dados_usuario: dict, tempo_expiracao: Optional[timedelta] = None):
     codificar = dados_usuario.copy()
     if tempo_expiracao:
-        expire = datetime.utcnow() + tempo_expiracao
+        expire = datetime.now(timezone("America/Sao_Paulo")) + tempo_expiracao
     else:
-        expire = datetime.utcnow() + timedelta(minutes=15)
+        expire = datetime.now(timezone("America/Sao_Paulo")) + timedelta(minutes=15)
     codificar.update({"exp": expire})
     codificacao_jwt = jwt.encode(codificar, SECRET_KEY, algorithm=ALGORITHM)
     return codificacao_jwt

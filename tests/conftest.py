@@ -65,15 +65,11 @@ def test_dados_usuarios():
 @pytest.fixture
 def test_dados_documento():
     return {
-        "descricao_documento": "Carteira de Identidade",
+        "descricao_documento": maiuscula_sem_acento("Carteira de Identidade"),
         "sigla_documento": "RG",
     }
 
 
 @pytest.fixture
-def test_transacao_data():
-    return {
-        "valor_transacao": 50.0,
-        "tipo_transacao_id": "1",
-        "transporte_id": "1",
-    }
+def test_dados_transacao():
+    return {"tipo_transacao": "1", "valor_transacao": 50.0}
