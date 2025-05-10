@@ -1,13 +1,10 @@
-import os
-
 import pytest
 from database import Base, SessionLocal, engine, get_db
 from fastapi.testclient import TestClient
 from main import app
 from sqlalchemy.orm import Session
+from utils.init_db import reset_db
 from utils.pydantic_validator import maiuscula_sem_acento
-
-os.environ["ENVIRONMENT"] = "dev"
 
 
 @pytest.fixture(scope="session", autouse=True)
@@ -18,6 +15,8 @@ def teste_db():
     Base.metadata.create_all(bind=engine)
     yield
     Base.metadata.drop_all(bind=engine)
+    Base.metadata.create_all(bind=engine)
+    reset_db(engine)
 
 
 @pytest.fixture(scope="function")
