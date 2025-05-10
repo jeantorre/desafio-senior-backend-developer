@@ -1,11 +1,12 @@
 services:
   backend:
     build:
-      context: ./backend
-      dockerfile: Dockerfile
+      context: .
+      dockerfile: backend/Dockerfile
       target: development
     volumes:
       - ./backend:/app
+      - ./tests:/app/tests
     environment:
       - ENVIRONMENT=dev
       - DEBUG=1

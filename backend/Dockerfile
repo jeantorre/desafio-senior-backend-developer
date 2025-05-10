@@ -7,14 +7,15 @@ RUN apt-get update && apt-get install -y \
 WORKDIR /app
 RUN pip install --no-cache-dir poetry
 ENV POETRY_VIRTUALENVS_CREATE=false
-COPY pyproject.toml poetry.lock* /app/
+COPY backend/pyproject.toml backend/poetry.lock* /app/
 RUN poetry install --no-root
 
 
 FROM base AS development
-COPY . /app/
+COPY backend /app/
+COPY tests /app/tests
 ENV PYTHONPATH=/app
 
 FROM base AS production
-COPY . /app/
+COPY backend /app/
 ENV PYTHONPATH=/app
