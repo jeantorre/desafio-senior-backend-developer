@@ -1,17 +1,20 @@
-# Welcome to MkDocs
+# Desafio Técnico - Desenvolvedor Backend Sênior | Iplan Rio
 
-For full documentation visit [mkdocs.org](https://www.mkdocs.org).
+<div style="text-align: center;">
+<img src="./src/logo-carteira-digital.png" alt="logo-carteira-digital">
+</div>
 
-## Commands
+## Contexto
 
-* `mkdocs new [dir-name]` - Create a new project.
-* `mkdocs serve` - Start the live-reloading docs server.
-* `mkdocs build` - Build the documentation site.
-* `mkdocs -h` - Print help message and exit.
+A Prefeitura do Rio de Janeiro quer oferecer aos cidadãos uma **API de Carteira Digital**, onde os usuários poderão armazenar e gerenciar documentos digitais, consultar e carregar créditos do transporte público e acessar serviços municipais via chatbot.  
 
-## Project layout
+Seu desafio será desenvolver uma API para essa carteira digital, simulando as interações do usuário com documentos e transporte público.
 
-    mkdocs.yml    # The configuration file.
-    docs/
-        index.md  # The documentation homepage.
-        ...       # Other markdown pages, images and other files.
+## Pipeline *backend*
+
+<div style="text-align: center;">
+<img src="./src/pipeline-backend.png" alt="pipeline-backend">
+</div>
+
+
+## Iniciando o repositório
