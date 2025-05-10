@@ -2,14 +2,6 @@ from database import Base, SessionLocal
 from model import ModeloDocumento, ModeloTipoTransacao, ModeloTransporte
 from sqlalchemy import text
 
-from .seeds_db import (
-    criar_documentos,
-    criar_relacoes_usuario_documento,
-    criar_tipo_transacao,
-    criar_transportes,
-    criar_usuarios,
-)
-
 
 def reset_db(engine) -> None:
     """
@@ -25,6 +17,15 @@ def reset_db(engine) -> None:
             connection.commit()
         Base.metadata.create_all(bind=engine)
         db = SessionLocal()
+
+        from .seeds_db import (
+            criar_documentos,
+            criar_relacoes_usuario_documento,
+            criar_tipo_transacao,
+            criar_transportes,
+            criar_usuarios,
+        )
+
         criar_tipo_transacao(db)
         criar_usuarios(db)
         criar_documentos(db)
@@ -49,6 +50,8 @@ def init_prod_db(engine) -> None:
     try:
         Base.metadata.create_all(bind=engine)
         db = SessionLocal()
+
+        from .seeds_db import criar_documentos, criar_tipo_transacao, criar_transportes
 
         if not db.query(ModeloTipoTransacao).first():
             criar_tipo_transacao(db)
