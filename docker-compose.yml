@@ -1,5 +1,6 @@
 services:
   backend:
+    image: backend-desafio:${ENVIRONMENT}
     container_name: backend-desafio-${ENVIRONMENT}
     networks:
       - app-network

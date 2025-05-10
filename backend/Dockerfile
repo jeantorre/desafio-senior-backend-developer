@@ -1,6 +1,7 @@
 FROM python:3.12.4 AS base
 RUN apt-get update && apt-get install -y \
     portaudio19-dev \
+    curl \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
 
