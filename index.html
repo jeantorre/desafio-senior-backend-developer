@@ -308,6 +308,21 @@
     </span>
   </a>
   
+    <nav class="md-nav" aria-label="Acessando os endpoints">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#carteirito-o-chatbot" class="md-nav__link">
+    <span class="md-ellipsis">
+      Carteirito, o Chatbot
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
 </li>
         
           <li class="md-nav__item">
@@ -497,6 +512,21 @@
     </span>
   </a>
   
+    <nav class="md-nav" aria-label="Acessando os endpoints">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#carteirito-o-chatbot" class="md-nav__link">
+    <span class="md-ellipsis">
+      Carteirito, o Chatbot
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
 </li>
         
           <li class="md-nav__item">
@@ -557,7 +587,7 @@
 
 <h2 id="api-carteira-digital">API Carteira Digital</h2>
 <p>Seja bem vindo à fase de teste da API da Carteira Digital, uma aplicação responsável por centralizar diferentes documentos do cidadão, realizar recargas de cartões de benefícios e também consultar saldo do vale transporte, tudo em tempo real! 😲  </p>
-<p>Para testar é preciso ter usuário e senha, mas não se preocupe! Por ser gratuito, todos podem fazer o cadastro e avaliar essa aplicação!  </p>
+<p>Para testar é preciso ter usuário e senha, mas não se preocupe! Por ser público, todos podem fazer o cadastro e avaliar essa aplicação!  </p>
 <h2 id="como-a-aplicacao-funciona">Como a aplicação funciona</h2>
 <div style="text-align: center;">
 <img src="./src/pipeline-backend.png" alt="pipeline-backend">
@@ -583,14 +613,14 @@ Isso mesmo, ambientes de <em>desenvolvimento</em> e de <em>produção</em>. São
 <p>Veja a diferença e escolha o que faz mais sentido neste momento:</p>
 <ul>
 <li>
-<p>Desenvolvimento - um ambiente para testar e desenvolver novas funcionalidades, <em>endpoints</em> e o que mais desejar. Com um <em>reload</em> automático, as alterações no código já refletem na aplicação.<br />
+<p><strong>Desenvolvimento</strong>: um ambiente para testar e desenvolver novas funcionalidades, <em>endpoints</em> e o que mais desejar. Com um <em>reload</em> automático, as alterações no código já refletem na aplicação.<br />
 Possui uma inserção automática de usuários, tipos de transporte, tipos de transação e alguns documentos e suas relações com usuários teste, sendo possível já testar os <em>endpoints</em> bastando apenas fazer o login para ter acesso ao token. E não se preocupe com qualquer alteração que fizer, a exclusão e reinclusão dos dados no banco é feita sempre que existe uma mudança no código!  </p>
 </li>
 <li>
-<p>Produção - ambiente onde as inserções de dados como usuários e as associações de documentos entre eles precisa ser feita de forma manual pelo usuário final. As informações inseridas e todas suas alterações são mantidas no banco.</p>
+<p><strong>Produção</strong>: ambiente onde as inserções de dados como usuários e as associações de documentos entre eles precisa ser feita de forma manual pelo usuário final. As informações inseridas e todas suas alterações são mantidas no banco.</p>
 </li>
 </ul>
-<p>Os comandos a seguir precisam ser realizados na raiz do projeto.  </p>
+<p>Os comandos a seguir precisam ser realizados na pasta raiz do projeto.  </p>
 <table>
 <thead>
 <tr>
@@ -607,13 +637,13 @@ Possui uma inserção automática de usuários, tipos de transporte, tipos de tr
 </tr>
 <tr>
 <td>Encerramento</td>
-<td>./scripts/stop-dev.sh</td>
+<td>1 - pressione CTRL+C para parar o container<br>2 - ./scripts/stop-dev.sh</td>
 <td>./scripts/stop-prod.sh</td>
 </tr>
 </tbody>
 </table>
 <h3 id="acessando-o-banco-de-dados">Acessando o banco de dados</h3>
-<p>Caso deseje fazer a leitura diretamente no banco de dados, escolha o gerenciador de sua preferência e configure da seguinte maneira:  </p>
+<p>Essa parte é opcional, logo se desejar fazer a leitura diretamente no banco de dados, escolha o gerenciador de sua preferência e configure da seguinte maneira:  </p>
 <ul>
 <li><strong>Tipo de conexão</strong>: banco PostgreSQL</li>
 </ul>
@@ -653,14 +683,15 @@ Possui uma inserção automática de usuários, tipos de transporte, tipos de tr
 </tr>
 </tbody>
 </table>
+<p>Caso prefira testar diretamente os <em>endpoints</em> pelo <strong>Swagger UI</strong> é só prosseguir para a <a href="#acessando-os-endpoints">próxima etapa</a>.  </p>
 <h4 id="diagrama-entidade-relacionamento">Diagrama Entidade-Relacionamento</h4>
 <div style="text-align: center;">
 <img src="./src/rl-database.png" alt="pipeline-backend">
 </div>
 
 <h3 id="acessando-os-endpoints">Acessando os <em>endpoints</em></h3>
-<p>É possível testá-los em ferramentas específicas que interagem com API ou diretamente pelo <strong>Swagger UI</strong>.<br />
-Nesta documentação gerada automaticamente pela FastAPI são encontradas todas claras descrições de cada <em>endpoint</em> e suas respectivas variáveis para execução, se aplicável.</p>
+<p>É possível testá-los em ferramentas específicas que interajam com API ou diretamente pelo <strong>Swagger UI</strong>.<br />
+Na documentação que é gerada automaticamente pela FastAPI são encontradas todas as descrições de cada <em>endpoint</em> de forma bem clara e suas respectivas variáveis para execução, quando aplicável.</p>
 <table>
 <thead>
 <tr>
@@ -677,7 +708,7 @@ Nesta documentação gerada automaticamente pela FastAPI são encontradas todas 
 </tr>
 </tbody>
 </table>
-<p>No ambiente de desenvolvimento já é criado usuário de teste de forma automática, com as seguintes credenciais no <em>endpoint</em> <code>/auth/login</code>:</p>
+<p>No ambiente de desenvolvimento já é criado usuário de teste de forma automática, ao iniciar a aplicação, com as seguintes credenciais para o <em>endpoint</em> <code>/auth/login</code>:</p>
 <ul>
 <li>username: teste1@teste.com</li>
 <li>password: teste1234</li>
@@ -689,7 +720,7 @@ Nesta documentação gerada automaticamente pela FastAPI são encontradas todas 
   &quot;token_refresh&quot;: &quot;token_que_expira_em_7_dias&quot;,
 }
 </code></pre>
-<p>Apenas os <em>endpoints</em> <code>/auth/login</code> e <code>/usuario/registrar</code> podem ser utilizados sem o token de acesso. Todos os outros é preciso autorização que pode ser passada na documentação ou na ferramenta de interação com API de sua escolha como "Bearer Token".  </p>
+<p>Apenas os <em>endpoints</em> <code>/auth/login</code> e <code>/usuario/registrar</code> podem ser utilizados sem o token de acesso. Todos os outros são preciso autorização que pode ser passada no <strong>Swagger UI</strong>, que está localizada na parte superior identificada por um cadeado escrito <em>Authorize</em>, ou na ferramenta de interação com API de sua escolha e na seção <em>Auth</em> como "Bearer Token".  </p>
 <div style="
   margin: 1em auto;
   padding: 1em;
@@ -702,9 +733,23 @@ Nesta documentação gerada automaticamente pela FastAPI são encontradas todas 
 <b>Observação</b>: Lembre-se de criar seu próprio usuário e senha antes de testar o ambiente de produção, ok? Após isso execute os mesmos passos explicados anteriormente.
 </div>
 
+<h4 id="carteirito-o-chatbot">Carteirito, o Chatbot</h4>
+<p>Para uma maior interação entre você e nossa aplicação, apresento o "Carteirito, o Chatbot".</p>
+<div style="text-align: center;">
+<img src="./src/cateirito-chatbot.png" alt="pipeline-backend">
+</div>
+
+<p>Aproveite este <em>endpoint</em> e faça alguma das perguntas abaixo:</p>
+<ul>
+<li>"Olá"</li>
+<li>"Qual seu nome?"</li>
+<li>"Pode verificar meu saldo?"</li>
+<li>"Meu VT serve em quais transportes?"</li>
+<li>"Tchau"</li>
+</ul>
 <h3 id="testes-automatizados">Testes automatizados</h3>
 <p>Para esta aplicação foi desenvolvido um <code>hook</code> para ambiente local que está associado ao <code>.pre-commit-config.yaml</code>.<br />
-O mesmo só funciona em <em>ambiente de desenvolvimento</em>, visto que para sua execução é necessário o ID no Docker do <code>backend-desafio-dev</code>, caso contrário não será permitido "commitar" as alterações, garantindo resiliência das funcionalidades cruciais da aplicação.  </p>
+O mesmo só funciona em <em>ambiente de desenvolvimento</em>, visto que para sua execução é necessário passar o ID no Docker do <code>backend-desafio-dev</code>, caso contrário não será permitido "commitar" as alterações, garantindo resiliência das funcionalidades cruciais da aplicação.  </p>
 <p>Caso desejar, também é possível rodar os testes unitários de forma manual com o comando a seguir:</p>
 <pre><code class="language-bash">docker exec -it backend-desafio-dev pytest
 </code></pre>
@@ -745,6 +790,9 @@ O mesmo só funciona em <em>ambiente de desenvolvimento</em>, visto que para sua
     <div class="social-links-home">
       <a href="https://www.linkedin.com/in/jeantorre/" target="_blank">
         <img src="https://img.icons8.com/?size=100&id=13930&format=png&color=000000" alt="Linkedin">
+      </a>
+      <a href="https://github.com/jeantorre" target="_blank">
+        <img src="https://img.icons8.com/?size=100&id=12599&format=png&color=000000" alt="GitHub">
       </a>
       <a href="https://www.instagram.com/torrej/" target="_blank">
         <img src="https://img.icons8.com/?size=100&id=Xy10Jcu1L2Su&format=png&color=000000" alt="Instagram">
