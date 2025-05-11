@@ -20,5 +20,23 @@ Por ser uma aplicação gratuita, todos podem fazer o cadastro e aproveitar mais
 ## Vamos fazer um teste?
 
 ### Iniciando o repositório
-Clone o repositório:
-`git clone
+
+Clone o repositório:  
+`git clone https://github.com/jeantorre/desafio-senior-backend-developer` 
+
+Vá até o repositório:
+`cd desafio-senior-backend-developer`
+
+### Inicializando a aplicação 
+Primeiro é necessário garantir que esteja rodando o [Docker desktop](https://www.docker.com/products/docker-desktop/).  
+
+Neste momento já foram criados dois ambientes: o de *produção* e o de *desenvolvimento*. São bancos distintos, com usuários e portas de acesso também distintas garantindo ambientes seguros para suas propostas.
+
+Veja a diferença e escolha o que faz mais sentido:
+* Desenvolvimento - um ambiente para testar e desenvolver novas *features*. Com uma inserção automática de usuários, tipos de transporte, tipos de transação e alguns documentos, é possível já testar os *endpoints* bastando apenas fazer o login.
+
+Os comandos a seguir precisam ser realizados na raíz do projeto.
+Comandos | Desenvolvimento | Produção 
+- | - | -
+Inicialização | ./script/start-dev.sh | ./script/start-prod.sh
+Encerramento | ./script/stop-dev.sh | | ./script/stop-prod.sh
