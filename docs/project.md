@@ -49,3 +49,8 @@ Para garantir a qualidade do código e prevenir quebras inesperadas em endpoints
 ">
 <b>Observação</b>: os testes dependem da execução do ambiente de desenvolvimento. Caso o ambiente de produção esteja ativo, os testes não serão executados, impedindo o commit e promovendo boas práticas de versionamento.
 </div>
+
+Caso desejar, também é possível rodar os testes unitários de forma manual com o comando a seguir:
+```bash
+docker exec -it backend-desafio-dev pytest
+```
