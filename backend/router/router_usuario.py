@@ -161,11 +161,9 @@ async def delete_usuario(
         db_usuario = deletar_usuario(db=db, usuario_id=id_usuario)
         return db_usuario
     except HTTPException as e:
-        if e.status_code == 404:
-            raise HTTPException(status_code=404, detail="Usuário não encontrado")
-        raise
+        raise e
     except Exception as e:
-        raise HTTPException(status_code=500, detail=e)
+        raise HTTPException(status_code=500, detail=str(e))
 
 
 @router_usuario.get(

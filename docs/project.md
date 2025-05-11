@@ -4,6 +4,47 @@ O desenvolvimento deste projeto foi conduzido com foco em criar uma aplicação 
 
 A arquitetura foi pensada para permitir escalabilidade e manutenção simplificada, utilizando boas práticas de desenvolvimento, tipagem e documentação de código.
 
+## ↔️ Fluxo da Aplicação
+``` mermaid
+sequenceDiagram
+    participant C AS Cliente
+    participant A AS API
+    participant D AS Database
+
+    C->>A: 1. POST /usuario/registrar<br><br>(Registra um novo usuário)
+    A->>D: Consulta se é e-mail único
+    D-->>A: Cliente registrado
+    A-->>C: Registro concluído
+
+    C->>A: 2. POST /auth/login<br><br>(Autenticação usuário)
+    A->>D: Consulta e-mail
+    D-->>A: Bearer token
+    A-->>C: Token de acesso
+
+    C->>A: 3. GET /documento/<br><br>(Consulta documentos cadastrados)
+    A->>D: Verifica documentos cadastrados
+    D-->>A: Documento cadastrados
+    A-->>C: Lista de documentos
+
+    C->>A: POST /documento/associa_vt/{id_usuario}<br><br>(Consulta se há benefício cadastrado)
+    A-->>D: Verifica duplicidade de documento
+    D-->>A: Cadastra documento
+    A-->>C: Documento cadastrado
+
+    C->>A: POST /transacao/criar_transacao_vt/{id_usuario}<br><br>(Cria uma transação no vale transporte)
+    A-->>D: Verifica tipo de transação
+    D-->>A: Transação válida
+    A-->>D: Consulta saldo (se aplicável)
+    D-->>A: Realiza transação
+    A-->>C: Confirma transação
+
+    C->>A: GET /transacao/saldo_vt/{id_usuario}<br><br>(Consulta o saldo do vale transporte)
+    A-->>D: Verifica o saldo do VT
+    D-->>A: Saldo do vale transporte
+    A-->>C: Saldo atual do VT
+```
+
+
 ## 🛠️ Ferramentas e Boas Práticas
 
 - **Framework Web**: via [FastAPI](https://fastapi.tiangolo.com/), selecionado devida a sua alta performance, tipagem nativa e documentação automática integrada (Swagger e Redoc)
@@ -49,3 +90,8 @@ Para garantir a qualidade do código e prevenir quebras inesperadas em endpoints
 ">
 <b>Observação</b>: os testes dependem da execução do ambiente de desenvolvimento. Caso o ambiente de produção esteja ativo, os testes não serão executados, impedindo o commit e promovendo boas práticas de versionamento.
 </div>
+
+Caso desejar, também é possível rodar os testes unitários de forma manual com o comando a seguir:
+```bash
+docker exec -it backend-desafio-dev pytest
+```

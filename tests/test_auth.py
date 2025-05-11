@@ -1,9 +1,9 @@
-import pytest
 from crud import criar_usuario
 from fastapi.testclient import TestClient
 from model import ModeloUsuario
 from schema import CriarUsuario
 from sqlalchemy.orm import Session
+
 
 def _criar_usuario_obter_token(cliente, test_user_data):
     """
@@ -37,7 +37,9 @@ def test_criar_usuario(db: Session, test_dados_usuarios):
     assert ModeloUsuario.verificar_senha(test_dados_usuarios["senha"], db_user.senha)
 
 
-def test_registrar_usuario_via_api(cliente: TestClient, db: Session, test_dados_usuarios):
+def test_registrar_usuario_via_api(
+    cliente: TestClient, db: Session, test_dados_usuarios
+):
     """
     Teste para registrar um usuário via API
     """
@@ -51,11 +53,13 @@ def test_registrar_usuario_via_api(cliente: TestClient, db: Session, test_dados_
     assert "senha" not in data
 
 
-def test_registrar_usuario_email_duplicado(cliente: TestClient, db: Session, test_dados_usuarios):
+def test_registrar_usuario_email_duplicado(
+    cliente: TestClient, db: Session, test_dados_usuarios
+):
     """
     Teste para verificar duplicidade de email no registro
     """
-    
+
     response = cliente.post("/usuario/registrar", json=test_dados_usuarios)
     assert response.status_code == 200
 
@@ -68,10 +72,9 @@ def test_login_usuario(cliente: TestClient, db: Session, test_dados_usuarios):
     """
     Teste de login do usuário
     """
-    # Primeiro registra um usuário
+
     cliente.post("/usuario/registrar", json=test_dados_usuarios)
 
-    # Tenta fazer login
     login_data = {
         "username": test_dados_usuarios["email_usuario"],
         "password": test_dados_usuarios["senha"],
@@ -85,7 +88,9 @@ def test_login_usuario(cliente: TestClient, db: Session, test_dados_usuarios):
     assert "token_refresh" in data
 
 
-def test_login_usuario_credenciais_invalidas(cliente: TestClient, db: Session, test_dados_usuarios):
+def test_login_usuario_credenciais_invalidas(
+    cliente: TestClient, db: Session, test_dados_usuarios
+):
     """
     Teste de login com credenciais inválidas
     """
@@ -101,13 +106,14 @@ def test_login_usuario_credenciais_invalidas(cliente: TestClient, db: Session, t
     assert response.status_code == 401
     assert "Senha incorreta" in response.json()["detail"]
 
+
 def test_token_invalido(cliente, test_dados_usuarios):
     """
     Teste que rejeita tokens inválidos
     """
-    
+
     usuario_id, _ = _criar_usuario_obter_token(cliente, test_dados_usuarios)
-    token_invalido = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJ0ZXN0QGV4YW1wbGUuY29tIiwiZXhwIjoxNjE2MTUyMDAwfQ.invalid_signature"
+    token_invalido = "token_invalido"  # nosec B105
     response = cliente.get(
         f"/usuario/{usuario_id}", headers={"Authorization": f"Bearer {token_invalido}"}
     )

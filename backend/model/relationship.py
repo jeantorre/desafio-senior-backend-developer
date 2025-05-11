@@ -16,7 +16,7 @@ ModeloTransacaoCarteira.usuario = relationship(
     "ModeloUsuario", back_populates="transacoes"
 )
 ModeloUsuario.transacoes = relationship(
-    "ModeloTransacaoCarteira", back_populates="usuario"
+    "ModeloTransacaoCarteira", back_populates="usuario", cascade="all, delete-orphan"
 )
 
 ModeloTransacaoCarteira.documento = relationship(

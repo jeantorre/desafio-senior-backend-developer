@@ -11,7 +11,7 @@ from model import (
     ModeloTransporte,
     ModeloUsuario,
 )
-from schema import CriarTransacaoCarteira, LerDocumento, LerTransacaoCarteira
+from schema import CriarTransacaoCarteira, LerDocumentoComSaldo, LerTransacaoCarteira
 from sqlalchemy.orm import Session
 from utils.auth import get_usuario_atual, verificar_bearer_token
 
@@ -161,7 +161,7 @@ async def post_transacao_carteira(
 
 @router_transacao.get(
     "/saldo_vt/{id_usuario}",
-    response_model=LerDocumento,
+    response_model=LerDocumentoComSaldo,
     summary="Consultar saldo do vale transporte",
     description="""
                     Consulta o saldo atual do vale transporte de um usuário.

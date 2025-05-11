@@ -32,6 +32,7 @@ dependencies = [
     "python-multipart (>=0.0.20,<0.0.21)",
     "alembic (>=1.15.2,<2.0.0)",
     "httpx (>=0.28.1,<0.29.0)",
+    "mkdocs-mermaid2-plugin (>=1.2.1,<2.0.0)",
 ]
 
 
