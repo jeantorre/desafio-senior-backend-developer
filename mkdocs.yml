@@ -38,5 +38,6 @@ theme:
 
 plugins:
   - mkdocstrings
+  - mermaid2
 
 repo_url: https://github.com/jeantorre/desafio-senior-backend-developer
