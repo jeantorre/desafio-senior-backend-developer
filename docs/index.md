@@ -6,7 +6,7 @@
 
 ## API Carteira Digital
 
-Seja bem vindo a fase de teste da API da Carteira Digital, uma aplicação responsável por centralizar diferentes documentos do cidadão, realizar recargas de cartões de benefícios e também consultar saldo do vale transporte, tudo em tempo real! 😲  
+Seja bem vindo à fase de teste da API da Carteira Digital, uma aplicação responsável por centralizar diferentes documentos do cidadão, realizar recargas de cartões de benefícios e também consultar saldo do vale transporte, tudo em tempo real! 😲  
 
 Para testar é preciso ter usuário e senha, mas não se preocupe! Por ser gratuito, todos podem fazer o cadastro e avaliar essa aplicação!  
 
@@ -21,6 +21,8 @@ Para testar é preciso ter usuário e senha, mas não se preocupe! Por ser gratu
 
 ### Iniciando o repositório
 
+No terminal **bash** do seu computador execute os comandos a seguir:
+
 1. 👨‍💻 Clone o repositório:  
 `git clone https://github.com/jeantorre/desafio-senior-backend-developer`
 
@@ -31,8 +33,8 @@ Para testar é preciso ter usuário e senha, mas não se preocupe! Por ser gratu
 
 Primeiro é necessário garantir que esteja rodando o [Docker Desktop](https://www.docker.com/products/docker-desktop/) em segundo plano.  
 
-Sabia que neste momento já foram criados dois ambientes? 🤔  
-O de *desenvolvimento* e o de *produção*. São bancos de dados distintos, com usuários e portas de acesso também separada, garantindo ambientes seguros para suas propostas.
+Antes de prosseguir... você sabia que neste momento já foram criados dois ambientes? 🤔  
+Isso mesmo, ambientes de *desenvolvimento* e de *produção*. São bancos de dados distintos, com usuários e portas de acesso também separada, garantindo ambientes seguros para suas propostas.
 
 Veja a diferença e escolha o que faz mais sentido neste momento:
 
@@ -42,7 +44,7 @@ Possui uma inserção automática de usuários, tipos de transporte, tipos de tr
 * Produção - ambiente onde as inserções de dados como usuários e as associações de documentos entre eles precisa ser feita de forma manual pelo usuário final. As informações inseridas e todas suas alterações são mantidas no banco.
 
 
-Os comandos a seguir precisam ser realizados na raíz do projeto.  
+Os comandos a seguir precisam ser realizados na raiz do projeto.  
 
 | Comandos | Desenvolvimento | Produção |
 | - | - | - |
@@ -51,9 +53,9 @@ Os comandos a seguir precisam ser realizados na raíz do projeto.
 
 ### Acessando o banco de dados
 
-Escolha o gerenciador de banco de sua preferência e configure da seguinte maneira:  
+Caso deseje fazer a leitura diretamente no banco de dados, escolha o gerenciador de sua preferência e configure da seguinte maneira:  
 
-- Banco para conexão: PostgreSQL
+- **Tipo de conexão**: banco PostgreSQL
 
 | Configurações | Desenvolvimento | Produção |
 | - | - | - |
@@ -70,13 +72,14 @@ Escolha o gerenciador de banco de sua preferência e configure da seguinte manei
 
 ### Acessando os *endpoints*
 
-É possível testá-los em ferramentas específicas que interagem com API ou diretamente pela documentação da API. Além disso também são encontradas todas as descrições de cada *endpoint* e suas respectivas variáveis.
+É possível testá-los em ferramentas específicas que interagem com API ou diretamente pelo **Swagger UI**.  
+Nesta documentação gerada automaticamente pela FastAPI são encontradas todas claras descrições de cada *endpoint* e suas respectivas variáveis para execução, se aplicável.
 
 |  | Desenvolvimento | Produção |
 | - | - | - |
 | Local de teste | http://localhost:8090/docs/ | http://localhost:8091/docs/ |
 
-No ambiente de desenvolvimento já é criado usário de teste de forma automática, com as seguintes credenciais no *endpoint* `/auth/login`:
+No ambiente de desenvolvimento já é criado usuário de teste de forma automática, com as seguintes credenciais no *endpoint* `/auth/login`:
 
 - username: teste1@teste.com
 - password: teste1234
@@ -92,10 +95,30 @@ Como resposta são retornados bearer tokens, onde:
 
 Apenas os *endpoints* `/auth/login` e `/usuario/registrar` podem ser utilizados sem o token de acesso. Todos os outros é preciso autorização que pode ser passada na documentação ou na ferramenta de interação com API de sua escolha como "Bearer Token".  
 
+<div style="
+  margin: 1em auto;
+  padding: 1em;
+  border-left: 4px solid #ccc;
+  background-color: #f9f9f9;
+  font-style: italic;
+  text-align: center;
+  max-width: 600px;
+">
+<b>Observação</b>: Lembre-se de criar seu próprio usuário e senha antes de testar o ambiente de produção, ok? Após isso execute os mesmos passos explicados anteriormente.
+</div>
+
 ### Testes automatizados
 
-Para esta aplicação foi desenvolvido um `hook` para ambiente local que foi associado ao `.pre-commit.config.yaml`.  
-O mesmo só funciona em *ambiente de desenvolvimento*, visto que para sua execução é necessário o ID no Docker do `backend-desafio-dev`, caso contrário não será permitido "commitar" as alterações, garantindo resiliência das funcionalidades cruciais da aplicação.
+Para esta aplicação foi desenvolvido um `hook` para ambiente local que está associado ao `.pre-commit-config.yaml`.  
+O mesmo só funciona em *ambiente de desenvolvimento*, visto que para sua execução é necessário o ID no Docker do `backend-desafio-dev`, caso contrário não será permitido "commitar" as alterações, garantindo resiliência das funcionalidades cruciais da aplicação.  
+
+Caso desejar, também é possível rodar os testes unitários de forma manual com o comando a seguir:
+```bash
+docker exec -it backend-desafio-dev pytest
+```
+## Documentação Técnica
+
+Para uma leitura em tom mais técnico e explicativo, acesse a seção ["O Projeto"](project.md).
 
 ## Desafio Técnico - Desenvolvedor Backend Sênior | Iplan Rio
 
