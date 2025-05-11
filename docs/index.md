@@ -92,4 +92,11 @@ Como resposta são retornados bearer tokens, onde:
 
 Apenas os *endpoints* `/auth/login` e `/usuario/registrar` podem ser utilizados sem o token de acesso. Todos os outros é preciso autorização que pode ser passada na documentação ou na ferramenta de interação com API de sua escolha como "Bearer Token".  
 
-Toda a documentação relacionada aos *endpoints* é localizada n
+### Testes automatizados
+
+Para esta aplicação foi desenvolvido um `hook` para ambiente local que foi associado ao `.pre-commit.config.yaml`.  
+O mesmo só funciona em *ambiente de desenvolvimento*, visto que para sua execução é necessário o ID no Docker do `backend-desafio-dev`, caso contrário não será permitido "commitar" as alterações, garantindo resiliência das funcionalidades cruciais da aplicação.
+
+## Desafio Técnico - Desenvolvedor Backend Sênior | Iplan Rio
+
+Esta aplicação foi desenvolvida para o processo seletivo da Iplan Rio. [Clique aqui](https://github.com/prefeitura-rio/desafio-senior-backend-developer) e acesse o repositório original.
