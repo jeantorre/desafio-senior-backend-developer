@@ -155,7 +155,11 @@ def deletar_usuario(db: Session, usuario_id: str) -> None:
     )
     if not db_usuario:
         raise HTTPException(status_code=404, detail="Usuário não encontrado")
-    db.delete(db_usuario)
-    db.commit()
 
-    return db_usuario
+    try:
+        db.delete(db_usuario)
+        db.commit()
+        return db_usuario
+    except Exception as e:
+        db.rollback()
+        raise HTTPException(status_code=500, detail=f"Erro ao excluir usuário: {str(e)}")

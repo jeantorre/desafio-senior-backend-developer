@@ -28,5 +28,14 @@ class LerDocumento(BaseModel):
     sigla_documento: Optional[str]
 
 
+class LerDocumentoComSaldo(LerDocumento):
+    """
+    Schema que representa o documento com o saldo
+    """
+
+    model_config = ConfigDict(from_attributes=True)
+    saldo: float
+
+
 class CriarDocumento(DocumentoBase):
     pass
