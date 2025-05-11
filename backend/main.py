@@ -7,6 +7,7 @@ from fastapi.exceptions import RequestValidationError
 from fastapi.middleware.cors import CORSMiddleware
 from router import (
     router_auth,
+    router_chatbot,
     router_documento,
     router_teste_backend,
     router_transacao,
@@ -58,6 +59,10 @@ app = FastAPI(
             "name": "Transações",
             "description": "Gerenciamento de transações",
         },
+        {
+            "name": "Chatbot",
+            "description": "Chatbot para interação com o usuário",
+        },
     ],
 )
 
@@ -87,3 +92,4 @@ app.include_router(router_documento)
 app.include_router(router_transporte)
 app.include_router(router_transacao)
 app.include_router(router_teste_backend)
+app.include_router(router_chatbot)
