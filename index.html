@@ -325,6 +325,15 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#documentacao-tecnica" class="md-nav__link">
+    <span class="md-ellipsis">
+      Documentação Técnica
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#desafio-tecnico-desenvolvedor-backend-senior-iplan-rio_1" class="md-nav__link">
     <span class="md-ellipsis">
       Desafio Técnico - Desenvolvedor Backend Sênior | Iplan Rio
@@ -505,6 +514,15 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#documentacao-tecnica" class="md-nav__link">
+    <span class="md-ellipsis">
+      Documentação Técnica
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#desafio-tecnico-desenvolvedor-backend-senior-iplan-rio_1" class="md-nav__link">
     <span class="md-ellipsis">
       Desafio Técnico - Desenvolvedor Backend Sênior | Iplan Rio
@@ -538,7 +556,7 @@
 </div>
 
 <h2 id="api-carteira-digital">API Carteira Digital</h2>
-<p>Seja bem vindo a fase de teste da API da Carteira Digital, uma aplicação responsável por centralizar diferentes documentos do cidadão, realizar recargas de cartões de benefícios e também consultar saldo do vale transporte, tudo em tempo real! 😲  </p>
+<p>Seja bem vindo à fase de teste da API da Carteira Digital, uma aplicação responsável por centralizar diferentes documentos do cidadão, realizar recargas de cartões de benefícios e também consultar saldo do vale transporte, tudo em tempo real! 😲  </p>
 <p>Para testar é preciso ter usuário e senha, mas não se preocupe! Por ser gratuito, todos podem fazer o cadastro e avaliar essa aplicação!  </p>
 <h2 id="como-a-aplicacao-funciona">Como a aplicação funciona</h2>
 <div style="text-align: center;">
@@ -547,6 +565,7 @@
 
 <h2 id="vamos-fazer-um-teste">Vamos fazer um teste?</h2>
 <h3 id="iniciando-o-repositorio">Iniciando o repositório</h3>
+<p>No terminal <strong>bash</strong> do seu computador execute os comandos a seguir:</p>
 <ol>
 <li>
 <p>👨‍💻 Clone o repositório:<br />
@@ -559,8 +578,8 @@
 </ol>
 <h3 id="inicializando-a-aplicacao">Inicializando a aplicação</h3>
 <p>Primeiro é necessário garantir que esteja rodando o <a href="https://www.docker.com/products/docker-desktop/">Docker Desktop</a> em segundo plano.  </p>
-<p>Sabia que neste momento já foram criados dois ambientes? 🤔<br />
-O de <em>desenvolvimento</em> e o de <em>produção</em>. São bancos de dados distintos, com usuários e portas de acesso também separada, garantindo ambientes seguros para suas propostas.</p>
+<p>Antes de prosseguir... você sabia que neste momento já foram criados dois ambientes? 🤔<br />
+Isso mesmo, ambientes de <em>desenvolvimento</em> e de <em>produção</em>. São bancos de dados distintos, com usuários e portas de acesso também separada, garantindo ambientes seguros para suas propostas.</p>
 <p>Veja a diferença e escolha o que faz mais sentido neste momento:</p>
 <ul>
 <li>
@@ -571,7 +590,7 @@ Possui uma inserção automática de usuários, tipos de transporte, tipos de tr
 <p>Produção - ambiente onde as inserções de dados como usuários e as associações de documentos entre eles precisa ser feita de forma manual pelo usuário final. As informações inseridas e todas suas alterações são mantidas no banco.</p>
 </li>
 </ul>
-<p>Os comandos a seguir precisam ser realizados na raíz do projeto.  </p>
+<p>Os comandos a seguir precisam ser realizados na raiz do projeto.  </p>
 <table>
 <thead>
 <tr>
@@ -594,9 +613,9 @@ Possui uma inserção automática de usuários, tipos de transporte, tipos de tr
 </tbody>
 </table>
 <h3 id="acessando-o-banco-de-dados">Acessando o banco de dados</h3>
-<p>Escolha o gerenciador de banco de sua preferência e configure da seguinte maneira:  </p>
+<p>Caso deseje fazer a leitura diretamente no banco de dados, escolha o gerenciador de sua preferência e configure da seguinte maneira:  </p>
 <ul>
-<li>Banco para conexão: PostgreSQL</li>
+<li><strong>Tipo de conexão</strong>: banco PostgreSQL</li>
 </ul>
 <table>
 <thead>
@@ -640,7 +659,8 @@ Possui uma inserção automática de usuários, tipos de transporte, tipos de tr
 </div>
 
 <h3 id="acessando-os-endpoints">Acessando os <em>endpoints</em></h3>
-<p>É possível testá-los em ferramentas específicas que interagem com API ou diretamente pela documentação da API. Além disso também são encontradas todas as descrições de cada <em>endpoint</em> e suas respectivas variáveis.</p>
+<p>É possível testá-los em ferramentas específicas que interagem com API ou diretamente pelo <strong>Swagger UI</strong>.<br />
+Nesta documentação gerada automaticamente pela FastAPI são encontradas todas claras descrições de cada <em>endpoint</em> e suas respectivas variáveis para execução, se aplicável.</p>
 <table>
 <thead>
 <tr>
@@ -657,7 +677,7 @@ Possui uma inserção automática de usuários, tipos de transporte, tipos de tr
 </tr>
 </tbody>
 </table>
-<p>No ambiente de desenvolvimento já é criado usário de teste de forma automática, com as seguintes credenciais no <em>endpoint</em> <code>/auth/login</code>:</p>
+<p>No ambiente de desenvolvimento já é criado usuário de teste de forma automática, com as seguintes credenciais no <em>endpoint</em> <code>/auth/login</code>:</p>
 <ul>
 <li>username: teste1@teste.com</li>
 <li>password: teste1234</li>
@@ -670,9 +690,26 @@ Possui uma inserção automática de usuários, tipos de transporte, tipos de tr
 }
 </code></pre>
 <p>Apenas os <em>endpoints</em> <code>/auth/login</code> e <code>/usuario/registrar</code> podem ser utilizados sem o token de acesso. Todos os outros é preciso autorização que pode ser passada na documentação ou na ferramenta de interação com API de sua escolha como "Bearer Token".  </p>
+<div style="
+  margin: 1em auto;
+  padding: 1em;
+  border-left: 4px solid #ccc;
+  background-color: #f9f9f9;
+  font-style: italic;
+  text-align: center;
+  max-width: 600px;
+">
+<b>Observação</b>: Lembre-se de criar seu próprio usuário e senha antes de testar o ambiente de produção, ok? Após isso execute os mesmos passos explicados anteriormente.
+</div>
+
 <h3 id="testes-automatizados">Testes automatizados</h3>
-<p>Para esta aplicação foi desenvolvido um <code>hook</code> para ambiente local que foi associado ao <code>.pre-commit.config.yaml</code>.<br />
-O mesmo só funciona em <em>ambiente de desenvolvimento</em>, visto que para sua execução é necessário o ID no Docker do <code>backend-desafio-dev</code>, caso contrário não será permitido "commitar" as alterações, garantindo resiliência das funcionalidades cruciais da aplicação.</p>
+<p>Para esta aplicação foi desenvolvido um <code>hook</code> para ambiente local que está associado ao <code>.pre-commit-config.yaml</code>.<br />
+O mesmo só funciona em <em>ambiente de desenvolvimento</em>, visto que para sua execução é necessário o ID no Docker do <code>backend-desafio-dev</code>, caso contrário não será permitido "commitar" as alterações, garantindo resiliência das funcionalidades cruciais da aplicação.  </p>
+<p>Caso desejar, também é possível rodar os testes unitários de forma manual com o comando a seguir:</p>
+<pre><code class="language-bash">docker exec -it backend-desafio-dev pytest
+</code></pre>
+<h2 id="documentacao-tecnica">Documentação Técnica</h2>
+<p>Para uma leitura em tom mais técnico e explicativo, acesse a seção <a href="project/">"O Projeto"</a>.</p>
 <h2 id="desafio-tecnico-desenvolvedor-backend-senior-iplan-rio_1">Desafio Técnico - Desenvolvedor Backend Sênior | Iplan Rio</h2>
 <p>Esta aplicação foi desenvolvida para o processo seletivo da Iplan Rio. <a href="https://github.com/prefeitura-rio/desafio-senior-backend-developer">Clique aqui</a> e acesse o repositório original.</p>
 
