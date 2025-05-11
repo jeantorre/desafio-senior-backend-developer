@@ -26,13 +26,12 @@ router_transacao = APIRouter(
     "/criar_transacao_vt/{id_usuario}",
     response_model=LerTransacaoCarteira,
     summary="Criar uma transação no vale transporte",
-    description="""
-                    Cria uma transação de vale transporte no sistema.
-                    Tipos de transação:
-                    - 1: Entrada - adiciona o valor correspondente ao saldo
-                    - 2: Saída - subtrai o valor correspondente ao saldo, se houver saldo
-                    suficiente
-                    """,
+    description=(
+        "Cria uma transação de vale transporte no sistema. Tipos de transação:"
+        "\n- 1: Entrada - adiciona o valor correspondente ao saldo"
+        "\n- 2: Saída - subtrai o valor correspondente ao saldo, se houver "
+        "saldo suficiente"
+    ),
     dependencies=[Depends(get_usuario_atual), Depends(verificar_bearer_token)],
 )
 async def post_transacao_carteira(
