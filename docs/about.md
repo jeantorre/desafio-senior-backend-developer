@@ -16,7 +16,7 @@
         <a href="https://github.com/jeantorre" target="_blank">
           <img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/github/github-original.svg" alt="GitHub">
         </a>
-        <a href="mailto:jean.riosaude@gmail.com" target="_blank">
+        <a href="mailto:jean.torre21@gmail.com" target="_blank">
           <img src="https://img.icons8.com/?size=100&id=P7UIlhbpWzZm&format=png&color=000000" alt="Gmail">
         </a>
       </div>

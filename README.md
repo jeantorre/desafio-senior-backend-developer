@@ -21,7 +21,7 @@ Primeiro é necessário garantir que esteja rodando o [Docker Desktop](https://w
 | Comandos | Desenvolvimento | Produção |
 | - | - | - |
 | Inicialização | ./scripts/start-dev.sh | ./scripts/start-prod.sh |
-| Encerramento | ./scripts/stop-dev.sh | ./scripts/stop-prod.sh |
+| Encerramento | 1 - pressione CTRL+C para parar o container<br>2 - ./scripts/stop-dev.sh | ./scripts/stop-prod.sh |
 
 4. É possível testá-los em ferramentas específicas que interagem com API ou diretamente pela documentação da API. 
 
@@ -59,6 +59,7 @@ Pela API ter sido construída utilizando o FastAPI, foi gerada uma documentaçã
 - **Schema**: validação de dados com Pydantic, garantindo integridade nas trocas entre cliente e servidor
 - **Routers**: definição dos *endpoints* da API
 - **Utils**: funções utilitárias compartilhadas entre partes da aplicação
+- **Chat**: lista de perguntas e respostas para interação com o usuário final
 
 ### 🔐 Segurança
 
@@ -71,6 +72,11 @@ Para garantir a qualidade do código e prevenir quebras inesperadas em endpoints
 
 <b>Observação</b>: os testes dependem da execução do ambiente de desenvolvimento. Caso o ambiente de produção esteja ativo, os testes não serão executados, impedindo o commit e promovendo boas práticas de versionamento.
 
+Caso desejar, também é possível rodar os testes unitários de forma manual com o comando a seguir:
+```bash
+docker exec -it backend-desafio-dev pytest -v
+```
+
 ## Documentação Completa
 
 Clique na imagem a seguir a leia a documentação completa.  
@@ -80,3 +86,7 @@ Clique na imagem a seguir a leia a documentação completa.
 <img src="docs/src/logo-carteira-digital.png" alt="logo-carteira-digital">
 </a>
 </div>
+
+## Desafio Técnico - Desenvolvedor Backend Sênior | Iplan Rio
+
+Esta aplicação foi desenvolvida para o processo seletivo da Iplan Rio. [Clique aqui](https://github.com/prefeitura-rio/desafio-senior-backend-developer) e acesse o repositório original.
