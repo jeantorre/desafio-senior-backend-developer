@@ -18,7 +18,7 @@ class Pergunta(BaseModel):
 
 @router_chatbot.post(
     "/",
-    summary="Carteirinha Chatbot",
+    summary="Carteirito, Chatbot",
     description="Chatbot para interação com o usuário.",
     dependencies=[Depends(get_usuario_atual), Depends(verificar_bearer_token)],
 )
