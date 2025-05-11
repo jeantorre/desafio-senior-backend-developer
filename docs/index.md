@@ -8,7 +8,7 @@
 
 Seja bem vindo à fase de teste da API da Carteira Digital, uma aplicação responsável por centralizar diferentes documentos do cidadão, realizar recargas de cartões de benefícios e também consultar saldo do vale transporte, tudo em tempo real! 😲  
 
-Para testar é preciso ter usuário e senha, mas não se preocupe! Por ser gratuito, todos podem fazer o cadastro e avaliar essa aplicação!  
+Para testar é preciso ter usuário e senha, mas não se preocupe! Por ser público, todos podem fazer o cadastro e avaliar essa aplicação!  
 
 ## Como a aplicação funciona
 
@@ -38,13 +38,13 @@ Isso mesmo, ambientes de *desenvolvimento* e de *produção*. São bancos de dad
 
 Veja a diferença e escolha o que faz mais sentido neste momento:
 
-* Desenvolvimento - um ambiente para testar e desenvolver novas funcionalidades, *endpoints* e o que mais desejar. Com um *reload* automático, as alterações no código já refletem na aplicação.  
+* **Desenvolvimento**: um ambiente para testar e desenvolver novas funcionalidades, *endpoints* e o que mais desejar. Com um *reload* automático, as alterações no código já refletem na aplicação.  
 Possui uma inserção automática de usuários, tipos de transporte, tipos de transação e alguns documentos e suas relações com usuários teste, sendo possível já testar os *endpoints* bastando apenas fazer o login para ter acesso ao token. E não se preocupe com qualquer alteração que fizer, a exclusão e reinclusão dos dados no banco é feita sempre que existe uma mudança no código!  
 
-* Produção - ambiente onde as inserções de dados como usuários e as associações de documentos entre eles precisa ser feita de forma manual pelo usuário final. As informações inseridas e todas suas alterações são mantidas no banco.
+* **Produção**: ambiente onde as inserções de dados como usuários e as associações de documentos entre eles precisa ser feita de forma manual pelo usuário final. As informações inseridas e todas suas alterações são mantidas no banco.
 
 
-Os comandos a seguir precisam ser realizados na raiz do projeto.  
+Os comandos a seguir precisam ser realizados na pasta raiz do projeto.  
 
 | Comandos | Desenvolvimento | Produção |
 | - | - | - |
@@ -53,7 +53,7 @@ Os comandos a seguir precisam ser realizados na raiz do projeto.
 
 ### Acessando o banco de dados
 
-Caso deseje fazer a leitura diretamente no banco de dados, escolha o gerenciador de sua preferência e configure da seguinte maneira:  
+Essa parte é opcional, logo se desejar fazer a leitura diretamente no banco de dados, escolha o gerenciador de sua preferência e configure da seguinte maneira:  
 
 - **Tipo de conexão**: banco PostgreSQL
 
@@ -65,6 +65,8 @@ Caso deseje fazer a leitura diretamente no banco de dados, escolha o gerenciador
 | Usuário | usuario_dev | usuario_prod |
 | Senha | dev123 | prod123 |
 
+Caso prefira testar diretamente os *endpoints* é só prosseguir para a próxima etapa.  
+
 #### Diagrama Entidade-Relacionamento
 <div style="text-align: center;">
 <img src="./src/rl-database.png" alt="pipeline-backend">
@@ -72,14 +74,14 @@ Caso deseje fazer a leitura diretamente no banco de dados, escolha o gerenciador
 
 ### Acessando os *endpoints*
 
-É possível testá-los em ferramentas específicas que interagem com API ou diretamente pelo **Swagger UI**.  
-Nesta documentação gerada automaticamente pela FastAPI são encontradas todas claras descrições de cada *endpoint* e suas respectivas variáveis para execução, se aplicável.
+É possível testá-los em ferramentas específicas que interajam com API ou diretamente pelo **Swagger UI**.  
+Na documentação que é gerada automaticamente pela FastAPI são encontradas todas as descrições de cada *endpoint* de forma bem clara e suas respectivas variáveis para execução, quando aplicável.
 
 |  | Desenvolvimento | Produção |
 | - | - | - |
 | Local de teste | http://localhost:8090/docs/ | http://localhost:8091/docs/ |
 
-No ambiente de desenvolvimento já é criado usuário de teste de forma automática, com as seguintes credenciais no *endpoint* `/auth/login`:
+No ambiente de desenvolvimento já é criado usuário de teste de forma automática, ao iniciar a aplicação, com as seguintes credenciais para o *endpoint* `/auth/login`:
 
 - username: teste1@teste.com
 - password: teste1234
@@ -93,7 +95,7 @@ Como resposta são retornados bearer tokens, onde:
 }
 ```
 
-Apenas os *endpoints* `/auth/login` e `/usuario/registrar` podem ser utilizados sem o token de acesso. Todos os outros é preciso autorização que pode ser passada na documentação ou na ferramenta de interação com API de sua escolha como "Bearer Token".  
+Apenas os *endpoints* `/auth/login` e `/usuario/registrar` podem ser utilizados sem o token de acesso. Todos os outros são preciso autorização que pode ser passada no **Swagger UI**, que está localizada na parte superior identificada por um cadeado escrito *Authorize*, ou na ferramenta de interação com API de sua escolha e na seção *Auth* como "Bearer Token".  
 
 <div style="
   margin: 1em auto;
@@ -110,12 +112,13 @@ Apenas os *endpoints* `/auth/login` e `/usuario/registrar` podem ser utilizados 
 ### Testes automatizados
 
 Para esta aplicação foi desenvolvido um `hook` para ambiente local que está associado ao `.pre-commit-config.yaml`.  
-O mesmo só funciona em *ambiente de desenvolvimento*, visto que para sua execução é necessário o ID no Docker do `backend-desafio-dev`, caso contrário não será permitido "commitar" as alterações, garantindo resiliência das funcionalidades cruciais da aplicação.  
+O mesmo só funciona em *ambiente de desenvolvimento*, visto que para sua execução é necessário passar o ID no Docker do `backend-desafio-dev`, caso contrário não será permitido "commitar" as alterações, garantindo resiliência das funcionalidades cruciais da aplicação.  
 
 Caso desejar, também é possível rodar os testes unitários de forma manual com o comando a seguir:
 ```bash
 docker exec -it backend-desafio-dev pytest
 ```
+
 ## Documentação Técnica
 
 Para uma leitura em tom mais técnico e explicativo, acesse a seção ["O Projeto"](project.md).
