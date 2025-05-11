@@ -51,7 +51,7 @@ Os comandos a seguir precisam ser realizados na raíz do projeto.
 
 ### Acessando o banco de dados
 
-Escolha o gerenciador de banco de sua preferência e configure da seguuinte maneira:  
+Escolha o gerenciador de banco de sua preferência e configure da seguinte maneira:  
 
 - Banco para conexão: PostgreSQL
 
