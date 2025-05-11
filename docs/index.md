@@ -4,17 +4,21 @@
 <img src="./src/logo-carteira-digital.png" alt="logo-carteira-digital">
 </div>
 
-## Contexto
+## API Carteira Digital
 
-A Prefeitura do Rio de Janeiro quer oferecer aos cidadãos uma **API de Carteira Digital**, onde os usuários poderão armazenar e gerenciar documentos digitais, consultar e carregar créditos do transporte público e acessar serviços municipais via chatbot.  
+Seja bem vindo a fase de teste da API da Carteira Digital, uma aplicação responsável por centralizar diferentes documentos do cidadão e também realizar recargas e consultar saldo do vale transporte, tudo em tempo real!  
 
-Seu desafio será desenvolver uma API para essa carteira digital, simulando as interações do usuário com documentos e transporte público.
+Por ser uma aplicação gratuita, todos podem fazer o cadastro e aproveitar mais esse benefício que está sendo entregue a população!  
 
-## Pipeline *backend*
+## Como a aplicação funciona 
 
 <div style="text-align: center;">
 <img src="./src/pipeline-backend.png" alt="pipeline-backend">
 </div>
 
 
-## Iniciando o repositório
+## Vamos fazer um teste?
+
+### Iniciando o repositório
+Clone o repositório:
+`git clone
