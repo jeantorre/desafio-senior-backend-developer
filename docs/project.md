@@ -69,6 +69,7 @@ Pela API ter sido construída utilizando o FastAPI, foi gerada uma documentaçã
 - **Schema**: validação de dados com Pydantic, garantindo integridade nas trocas entre cliente e servidor
 - **Routers**: definição dos *endpoints* da API
 - **Utils**: funções utilitárias compartilhadas entre partes da aplicação
+- **Chat**: lista de perguntas e respostas para interação com o usuário final
 
 ## 🔐 Segurança
 
@@ -93,5 +94,5 @@ Para garantir a qualidade do código e prevenir quebras inesperadas em endpoints
 
 Caso desejar, também é possível rodar os testes unitários de forma manual com o comando a seguir:
 ```bash
-docker exec -it backend-desafio-dev pytest
+docker exec -it backend-desafio-dev pytest -v
 ```

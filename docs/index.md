@@ -49,7 +49,7 @@ Os comandos a seguir precisam ser realizados na pasta raiz do projeto.
 | Comandos | Desenvolvimento | Produção |
 | - | - | - |
 | Inicialização | ./scripts/start-dev.sh | ./scripts/start-prod.sh |
-| Encerramento | ./scripts/stop-dev.sh | ./scripts/stop-prod.sh |
+| Encerramento | 1 - pressione CTRL+C para parar o container<br>2 - ./scripts/stop-dev.sh | ./scripts/stop-prod.sh |
 
 ### Acessando o banco de dados
 
@@ -65,7 +65,7 @@ Essa parte é opcional, logo se desejar fazer a leitura diretamente no banco de 
 | Usuário | usuario_dev | usuario_prod |
 | Senha | dev123 | prod123 |
 
-Caso prefira testar diretamente os *endpoints* é só prosseguir para a próxima etapa.  
+Caso prefira testar diretamente os *endpoints* pelo **Swagger UI** é só prosseguir para a [próxima etapa](#acessando-os-endpoints).  
 
 #### Diagrama Entidade-Relacionamento
 <div style="text-align: center;">
@@ -108,6 +108,24 @@ Apenas os *endpoints* `/auth/login` e `/usuario/registrar` podem ser utilizados 
 ">
 <b>Observação</b>: Lembre-se de criar seu próprio usuário e senha antes de testar o ambiente de produção, ok? Após isso execute os mesmos passos explicados anteriormente.
 </div>
+
+
+#### Carteirito, o Chatbot
+
+Para uma maior interação entre você e nossa aplicação, apresento o "Carteirito, o Chatbot".
+
+<div style="text-align: center;">
+<img src="./src/cateirito-chatbot.png" alt="pipeline-backend">
+</div>
+
+Aproveite este *endpoint* e faça alguma das perguntas abaixo:
+
+- "Olá"
+- "Qual seu nome?"
+- "Pode verificar meu saldo?"
+- "Meu VT serve em quais transportes?"
+- "Tchau"
+
 
 ### Testes automatizados
 
