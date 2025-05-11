@@ -17,6 +17,8 @@ copyright: >
 
 nav:
   - Página Inicial: index.md
+  - O Projeto: project.md
+  - Sobre: about.md
 
 extra_css:
   - css/markdown_custom.css

@@ -31,51 +31,45 @@ Primeiro é necessário garantir que esteja rodando o [Docker Desktop](https://w
 
 ## Desafios e Decisões Técnicas/Estratégicas do Projeto
 
-<div style="text-align: center;">
-<img src="docs/src/pipeline-backend.png" alt="pipeline-backend">
-</div>
+O desenvolvimento deste projeto foi conduzido com foco em criar uma aplicação robusta, modular e de fácil reprodutibilidade, tanto em ambientes de desenvolvimento quanto de produção.
 
-No desenvolvimento deste desafio foi pensado, e realizado, uma aplicação com lógica e arquitetura que pode ser reproduzida em ambientes de "desenvolvimento" e "produção" para empresas de tecnologia.  
+A arquitetura foi pensada para permitir escalabilidade e manutenção simplificada, utilizando boas práticas de desenvolvimento, tipagem e documentação de código.
 
-Com um repositório de estrutura modular, é possível garantir fácil manutenção e também de fácil escalabilidade, se aplicável. Além disso pode ser encontrado `doc hint` e `type hint` em todo o desenvolvimento.  
+### 🛠️ Ferramentas e Boas Práticas
 
-Para gerenciamento de ambiente virtual é utilizado o `poetry` e para padronizar todo o repositório foram utilizados `hooks` padrões, como por exmeplo:
+- **Framework Web**: via [FastAPI](https://fastapi.tiangolo.com/), selecionado devida a sua alta performance, tipagem nativa e documentação automática integrada (Swagger e Redoc)
+- **Gerenciamento de ambiente virutal**: via `poetry`.
+- **Padronização de código**: com uso de `pre-commit hooks`, incluido:
+    - `bandit` - análise de segurança
+    - `isort` - organização de *imports*
+    - `black` - formatação automática do código
+    - `flake8` - verificação de estilo
+    - `hook` personalizado, desenvolvido especificamente para este projeto
+- **Controle de versão do banco de dados**: via [Alembic](https://alembic.sqlalchemy.org/en/latest/), permitindo o versionamento seguro das migrações do banco de dados.
+- **Container e orquestração**: com fornecimento de diferentes configurações de `docker-compose.yml` e `Dockerfile` facilita a replicação de ambientes de desenvolvimento e produção.
 
-- Bandit
-- Isort
-- Black
-- Flake8
-- E também `hook` desenvolvido localmente para este projeto.
+### 📖 Documentação Automática
 
-Para garantir que todos consigam replicar essa aplicação com facilidade, são utilizados diferentes `docker-compose.yml` e `Dockerfile`.
+Pela API ter sido construída utilizando o FastAPI, foi gerada uma documentação automática e interativa via **Swagger UI** e **Redoc**. Permitindo um entendimento técnico e de interação de terceiros com os *endpoints* disponíveis.
 
+### 🧱 Estrutura do Projeto
 
-### Estrutura
+- **CRUD**: funções responsáveis pelas operações de criação, leitura, atualização e remoção de dados
+- **Model**: definição das estruturas de dados e modelos relacionais do banco, com tipagem explícita e dicionário de dados 
+- **Schema**: validação de dados com Pydantic, garantindo integridade nas trocas entre cliente e servidor
+- **Routers**: definição dos *endpoints* da API
+- **Utils**: funções utilitárias compartilhadas entre partes da aplicação
 
-#### CRUD
-São encontradas as funções relacionadas ao CRUD das rotas.  
+### 🔐 Segurança
 
-#### MODEL
-São encontrados dodos os modelos das tabelas que são criadas no banco de dados, com o dicionário de dados e "tipagem" de cada coluna.  
+- **Senhas**: senhas são armazenadas de forma segura no banco de dados, utilizando algorístmos de *hashing*
+- **Variáveis de ambiente**: estão centralizadas em arquivos `.env`. Esses arquivos estão incluídos no repositório apenas para facilitar a reprodução local.
 
-#### SCHEMA
-Modelo `pydantic` que garante validação dos dados em todas as transferência entre cliente <-> banco de dados <-> cliente.  
+### 🦾 Testes Automatizados
 
-#### ROUTER
-São encontradas todos os *endpoints* desenvolvidos.
+Para garantir a qualidade do código e prevenir quebras inesperadas em endpoints críticos, foi desenvolvido um `hook` local associado ao `pre-commit`. Esse hook executa testes automatizados (via `pytest`) sobre os *endpoints* da API, mas somente se o ambiente de desenvolvimento estiver rodando via Docker em segundo plano.
 
-#### UTILS
-São encontrados código de uso em comum no repositório.
-
-### Segurança
-
-Dados sensíveis, como as senhas, são salvas no banco de dados após passar pelo processo de *hashing*.    
-As variáveis de ambiente `(.env)` foram expostas para facilitar a reprodutibilidade da aplicação
-
-### Testes Automatizados
-
-Devida a complexidade na estrutura desenvolvida de ambiente de desenvolvimento e produção, foi criado `hook` local, e associado ao `pre-commit` para garantir testes unitários em rotas cruciais antes de "commitar" qualquer atualização.  Este teste só roda em ambiente de desenvolvimento quando o mesmo está rodando em segundo plano pelo Docker, pois os testes desenvolvidos utilizam os *endpoints*.  
-Dessa forma se o ambiente de produção estiver ligado, ao rodar o `pre-commit` não achará as funções do `pytests`, impossibilitando o commit do código.
+<b>Observação</b>: os testes dependem da execução do ambiente de desenvolvimento. Caso o ambiente de produção esteja ativo, os testes não serão executados, impedindo o commit e promovendo boas práticas de versionamento.
 
 ## Documentação Completa
 
