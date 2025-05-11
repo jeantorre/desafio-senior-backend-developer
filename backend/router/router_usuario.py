@@ -102,12 +102,12 @@ async def post_usuario(
     "/{id_usuario}",
     response_model=LerUsuario,
     summary="Atualizar um usuário existente",
-    description="""
-                 Atualiza as informações de um usuário existente.
-                 Para atualizar a senha, é necessário fornecer:
-                 - senha_atual: A senha atual do usuário
-                 - nova_senha: A nova senha desejada
-                 """,
+    description=(
+        "Atualiza as informações de um usuário existente. Para atualizar "
+        "a senha, é necessário fornecer:"
+        "\n- senha_atual: A senha atual do usuário"
+        "\n- nova_senha: A nova senha desejada"
+    ),
     dependencies=[Depends(get_usuario_atual), Depends(verificar_bearer_token)],
 )
 async def update_usuario(

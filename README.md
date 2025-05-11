@@ -1,64 +1,88 @@
-# Desafio Técnico – Desenvolvedor(a) Back-end Sênior
+# Desafio Técnico - Desenvolvedor Backend Sênior | Iplan Rio
 
-Bem-vindo(a) ao desafio técnico para a vaga de Pessoa Desenvolvedora Back-end Sênior!
+## API Carteira Digital
 
-Nosso objetivo com este desafio é avaliar suas habilidades técnicas em FastAPI, bancos de dados, arquitetura de APIs e boas práticas de desenvolvimento back-end.
+Seja bem vindo a fase de teste da API da Carteira Digital, uma aplicação responsável por centralizar diferentes documentos do cidadão, realizar recargas de cartões de benefícios e também consultar saldo do vale transporte, tudo em tempo real! 😲  
 
-## 📌 Contexto
+## Iniciando o repositório
 
-A Prefeitura do Rio de Janeiro quer oferecer aos cidadãos uma **API de Carteira Digital**, onde os usuários poderão armazenar e gerenciar documentos digitais, consultar e carregar créditos do transporte público e acessar serviços municipais via chatbot.
+1. Clone o repositório:  
+`git clone https://github.com/jeantorre/desafio-senior-backend-developer`
 
-Seu desafio será desenvolver uma API para essa carteira digital, simulando as interações do usuário com documentos e transporte público.
+2. Vá até o repositório:  
+`cd desafio-senior-backend-developer`
 
-## ✨ Requisitos do Desafio
+### Inicializando a aplicação
 
-### 🔹 Funcionalidades Esperadas
+Primeiro é necessário garantir que esteja rodando o [Docker Desktop](https://www.docker.com/products/docker-desktop/) em segundo plano.  
 
-- Autenticação e Gerenciamento de Usuários
-    - Cadastro e login de usuários (simples, com e-mail/senha).
-    - Uso de tokens JWT para autenticação.
-    - [Diferencial] Integração com OAuth2 (Google, Facebook, etc).
-    - [Diferencial] Multi-factor authentication (MFA).
+3. Escolha o ambiente que deseja e utiulize algum dos comandos a seguir. Os mesmos precisam ser realizados na raíz do projeto.  
 
-- Gestão de Documentos
-    - Endpoint para armazenar e listar documentos digitais (exemplo: identidade, CPF, comprovante de vacinação).
+| Comandos | Desenvolvimento | Produção |
+| - | - | - |
+| Inicialização | ./scripts/start-dev.sh | ./scripts/start-prod.sh |
+| Encerramento | ./scripts/stop-dev.sh | ./scripts/stop-prod.sh |
 
-- Gestão de Transporte Público
-    - Endpoint para consultar saldo do passe de transporte público (mockado).
-    - Endpoint para simular recarga do passe.
+4. É possível testá-los em ferramentas específicas que interagem com API ou diretamente pela documentação da API. 
 
-- Integração com Chatbot (Simples)
-    - Endpoint que recebe uma pergunta do usuário e retorna uma resposta pré-definida (simulação de um chatbot).
+|  | Desenvolvimento | Produção |
+| - | - | - |
+| Local de teste | http://localhost:8090/docs/ | http://localhost:8091/docs/ |
 
-### 🔹 Requisitos Técnicos
+## Desafios e Decisões Técnicas/Estratégicas do Projeto
 
-- FastAPI como framework principal.
-- Banco de Dados Relacional (PostgreSQL ou MySQL, usando ORM como SQLAlchemy ou Tortoise-ORM).
-- Ferramenta de migrations (Alembic, Aerich, etc).
-- Testes automatizados para pelo menos uma funcionalidade crítica.
-- Documentação da API (usando OpenAPI gerado pelo FastAPI e README explicativo).
-- Endpoint de verificação de saúde da API (por exemplo, `/health`).
-- Configuração de CI/CD (um workflow simples no GitHub Actions ou equivalente para rodar os testes automaticamente).
-- Dockerfile e/ou docker-compose para rodar o projeto facilmente.
+<div style="text-align: center;">
+<img src="docs/src/pipeline-backend.png" alt="pipeline-backend">
+</div>
 
-## 🏗️ Como Submeter o Desafio
+No desenvolvimento deste desafio foi pensado, e realizado, uma aplicação com lógica e arquitetura que pode ser reproduzida em ambientes de "desenvolvimento" e "produção" para empresas de tecnologia.  
 
-1. Faça um fork ou clone este repositório.
-2. Implemente a solução seguindo os requisitos descritos.
-3. Inclua um pequeno documento (ou atualize este README) explicando suas decisões técnicas, estrutura do código e instruções para rodar o projeto.
-4. Envie o link do repositório para nós!
+Com um repositório de estrutura modular, é possível garantir fácil manutenção e também de fácil escalabilidade, se aplicável. Além disso pode ser encontrado `doc hint` e `type hint` em todo o desenvolvimento.  
 
-## 📖 O que será avaliado?
+Para gerenciamento de ambiente virtual é utilizado o `poetry` e para padronizar todo o repositório foram utilizados `hooks` padrões, como por exmeplo:
 
-- Código limpo e bem estruturado.
-- Boas práticas com FastAPI e Python.
-- Modelagem eficiente do banco de dados.
-- Testes automatizados.
-- Configuração de CI/CD e Docker.
-- Documentação clara da API e do projeto.
+- Bandit
+- Isort
+- Black
+- Flake8
+- E também `hook` desenvolvido localmente para este projeto.
 
-## ❓ Dúvidas?
+Para garantir que todos consigam replicar essa aplicação com facilidade, são utilizados diferentes `docker-compose.yml` e `Dockerfile`.
 
-Se tiver qualquer dúvida, fique à vontade para perguntar!
 
-Boa sorte! 🚀
+### Estrutura
+
+#### CRUD
+São encontradas as funções relacionadas ao CRUD das rotas.  
+
+#### MODEL
+São encontrados dodos os modelos das tabelas que são criadas no banco de dados, com o dicionário de dados e "tipagem" de cada coluna.  
+
+#### SCHEMA
+Modelo `pydantic` que garante validação dos dados em todas as transferência entre cliente <-> banco de dados <-> cliente.  
+
+#### ROUTER
+São encontradas todos os *endpoints* desenvolvidos.
+
+#### UTILS
+São encontrados código de uso em comum no repositório.
+
+### Segurança
+
+Dados sensíveis, como as senhas, são salvas no banco de dados após passar pelo processo de *hashing*.    
+As variáveis de ambiente `(.env)` foram expostas para facilitar a reprodutibilidade da aplicação
+
+### Testes Automatizados
+
+Devida a complexidade na estrutura desenvolvida de ambiente de desenvolvimento e produção, foi criado `hook` local, e associado ao `pre-commit` para garantir testes unitários em rotas cruciais antes de "commitar" qualquer atualização.  Este teste só roda em ambiente de desenvolvimento quando o mesmo está rodando em segundo plano pelo Docker, pois os testes desenvolvidos utilizam os *endpoints*.  
+Dessa forma se o ambiente de produção estiver ligado, ao rodar o `pre-commit` não achará as funções do `pytests`, impossibilitando o commit do código.
+
+## Documentação Completa
+
+Clique na imagem a seguir a leia a documentação completa.  
+
+<div style="text-align: center;">
+<a href="https://jeantorre.github.io/desafio-senior-backend-developer/">
+<img src="docs/src/logo-carteira-digital.png" alt="logo-carteira-digital">
+</a>
+</div>
