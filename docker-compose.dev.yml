@@ -1,0 +1,26 @@
+services:
+  backend:
+    build:
+      context: .
+      dockerfile: backend/Dockerfile
+      target: development
+    volumes:
+      - ./backend:/app
+      - ./tests:/app/tests
+    environment:
+      - ENVIRONMENT=dev
+      - DEBUG=1
+    ports:
+      - "8090:8090"
+    command: uvicorn main:app --host 0.0.0.0 --port 8090 --reload
+
+  postgres:
+    image: postgres:latest
+    ports:
+      - "5433:5432"
+    volumes:
+      - postgres_dev_data:/var/lib/postgresql/data
+
+volumes:
+  postgres_dev_data:
+    name: desafio_dev_data

@@ -1,0 +1,41 @@
+services:
+  backend:
+    image: backend-desafio:${ENVIRONMENT}
+    container_name: backend-desafio-${ENVIRONMENT}
+    networks:
+      - app-network
+    env_file:
+      - .env.${ENVIRONMENT}
+    depends_on:
+      postgres:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8090/health/"]
+      interval: 60s
+      timeout: 10s
+      retries: 3
+
+  postgres:
+    image: postgres:latest
+    container_name: db-desafio-${ENVIRONMENT}
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      TZ: ${TZ}
+      PGTZ: ${PGTZ}
+    networks:
+      - app-network
+    env_file:
+      - .env.${ENVIRONMENT}
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER} -d ${POSTGRES_DB}"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+      start_period: 20s
+
+networks:
+  app-network:
+    name: desafio-network-${ENVIRONMENT}
+    driver: bridge

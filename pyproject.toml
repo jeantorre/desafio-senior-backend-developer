@@ -17,7 +17,22 @@ dependencies = [
     "mkdocstrings-python (>=1.16.10,<2.0.0)",
     "taskipy (>=1.14.1,<2.0.0)",
     "pytest (>=8.3.5,<9.0.0)",
-    "ignr (>=2.2,<3.0)"
+    "ignr (>=2.2,<3.0)",
+    "psycopg2-binary (>=2.9.10,<3.0.0)",
+    "sqlalchemy (>=2.0.40,<3.0.0)",
+    "fastapi (>=0.115.12,<0.116.0)",
+    "uuid (>=1.30,<2.0)",
+    "pytz (>=2025.2,<2026.0)",
+    "pydantic[email] (>=2.11.4,<3.0.0)",
+    "python-jose (>=3.4.0,<4.0.0)",
+    "passlib (>=1.7.4,<2.0.0)",
+    "uvicorn (>=0.34.2,<0.35.0)",
+    "unidecode (>=1.4.0,<2.0.0)",
+    "python-dotenv (>=1.1.0,<2.0.0)",
+    "python-multipart (>=0.0.20,<0.0.21)",
+    "alembic (>=1.15.2,<2.0.0)",
+    "httpx (>=0.28.1,<0.29.0)",
+    "mkdocs-mermaid2-plugin (>=1.2.1,<2.0.0)",
 ]
 
 
@@ -47,6 +62,15 @@ exclude = '''
 '''
 
 [tool.taskipy.tasks]
-tests = "pytest -v"
+tests = "PYTHONPATH=./backend pytest -v"
 docs = "mkdocs serve"
 deploy = "mkdocs gh-deploy"
+
+
+makemigrations-prod = "ENVIRONMENT=prod alembic -c alembic.ini revision --autogenerate -m"
+migrate-prod = "ENVIRONMENT=prod alembic -c alembic.ini upgrade head"
+downgrade-prod = "ENVIRONMENT=prod alembic -c alembic.ini downgrade -1"
+
+makemigrations-dev = "ENVIRONMENT=dev alembic -c alembic.ini revision --autogenerate -m"
+migrate-dev = "ENVIRONMENT=dev alembic -c alembic.ini upgrade head"
+downgrade-dev = "ENVIRONMENT=dev alembic -c alembic.ini downgrade -1"

@@ -1,1 +1,48 @@
-site_name: My Docs
+site_name: Carteira Digital | Iplan Rio
+site_author: Jean Torre
+copyright: >
+  © 2025 | Desenvolvido por Jean Torre | Versão v1.0.0
+  <p>Como me encontrar:</p>
+      <div class="social-links-home">
+        <a href="https://www.linkedin.com/in/jeantorre/" target="_blank">
+          <img src="https://img.icons8.com/?size=100&id=13930&format=png&color=000000" alt="Linkedin">
+        </a>
+        <a href="https://github.com/jeantorre" target="_blank">
+          <img src="https://img.icons8.com/?size=100&id=12599&format=png&color=000000" alt="GitHub">
+        </a>
+        <a href="https://www.instagram.com/torrej/" target="_blank">
+          <img src="https://img.icons8.com/?size=100&id=Xy10Jcu1L2Su&format=png&color=000000" alt="Instagram">
+        </a>
+        <a href="mailto:jean.torre21@gmail.com" target="_blank">
+          <img src="https://img.icons8.com/?size=100&id=P7UIlhbpWzZm&format=png&color=000000" alt="Gmail">
+        </a>
+      </div>
+
+
+
+nav:
+  - Página Inicial: index.md
+  - O Projeto: project.md
+  - Sobre: about.md
+
+extra_css:
+  - css/markdown_custom.css
+  - css/html_custom.css
+
+use_directory_urls: true
+extra:
+  src_dir: src
+
+theme:
+  name: material
+  language: pt-BR
+  logo: src/logo-horizontal-monocromatico.png
+  hide:
+    - navigation
+    - toc
+
+plugins:
+  - mkdocstrings
+  - mermaid2
+
+repo_url: https://github.com/jeantorre/desafio-senior-backend-developer

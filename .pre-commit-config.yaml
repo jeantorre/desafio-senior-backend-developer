@@ -1,3 +1,4 @@
+exclude: ^(docs/|README\.md|mkdocs\.yml|\.pre-commit-config\.yaml)$
 repos:
   - repo: https://github.com/pre-commit/pre-commit-hooks
     rev: v4.5.0
@@ -53,3 +54,14 @@ repos:
         types: [python]
         require_serial: true
         args: ['--skip=B101']
+  - repo: local
+    hooks:
+      - id: docker-tests
+        name: run-tests-in-docker
+        description: 'Run pytest in Docker container'
+        entry: hooks/docker-tests.sh
+        language: script
+        pass_filenames: false
+        files: \.py$
+        exclude: ^(docs/|README\.md|mkdocs\.yml|\.pre-commit-config\.yaml)$
+        

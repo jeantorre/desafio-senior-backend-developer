@@ -1,0 +1,39 @@
+services:
+  backend:
+    build:
+      context: .
+      dockerfile: backend/Dockerfile
+      target: production
+    volumes:
+      - backend_prod_logs:/app/logs
+    environment:
+      - ENVIRONMENT=prod
+      - DEBUG=0
+    ports:
+      - "8091:8090"
+    command: uvicorn main:app --host 0.0.0.0 --port 8090 --workers 4
+    deploy:
+      restart_policy:
+        condition: on-failure
+        max_attempts: 3
+
+  postgres:
+    image: postgres:latest
+    ports:
+      - "5434:5432"
+    volumes:
+      - postgres_prod_data:/var/lib/postgresql/data
+    deploy:
+      restart_policy:
+        condition: on-failure
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER} -d ${POSTGRES_DB}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+volumes:
+  postgres_prod_data:
+    name: desafio_prod_data
+  backend_prod_logs:
+    name: desafio_prod_logs
